@@ -48,6 +48,7 @@ contract ItemDaoBasic is ItemDao {
 
 
     event LogNew (
+        uint256 id,
         address owner,
         uint version,
         bytes32 title,
@@ -82,11 +83,11 @@ contract ItemDaoBasic is ItemDao {
 
         uint256 id = generateId();
 
-        require(exists(id) == false); //make sure it doesn't exist
+        require(exists(id) == false); //make sure it doesn't exist. Might need refactored so that I can write tests to verify this condition
 
         Item memory item = Item({
             id: id,
-            owner: this,
+            owner: msg.sender,
             version: 1,
             title: title,
             inventory: inventory,
@@ -103,7 +104,7 @@ contract ItemDaoBasic is ItemDao {
         itemIndex.push(id);
 
 
-        emit LogNew(item.owner, item.version, item.title, item.inventory, item.active);
+        emit LogNew(item.id, item.owner, item.version, item.title, item.inventory, item.active);
 
 
         return item.id;

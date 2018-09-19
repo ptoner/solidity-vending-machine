@@ -1,66 +1,48 @@
-var data = artifacts.require("ItemDaoBasic");
+var ItemDaoBasic = artifacts.require("ItemDaoBasic");
 
 
 contract('ItemDaoBasic', function(accounts) {
 
-    it("test create item", function() {
+    it("Test create Payday", function() {
 
         var dao;
-        var logNewEvent;
 
-        return data.deployed().then(function (instance) {
+        return ItemDaoBasic.deployed().then(function (instance) {
             dao = instance;
-
-            logNewEvent = dao.LogNew();
-
-
 
             //Arrange
             var owner = dao;
-            var version =1;
+            var version = 1;
             var title = "Payday";
             var inventory = 5;
             var active = true;
 
-            // console.log(dao);
 
             //Act
-            return dao.create.call(version, title, inventory, active);
-        }).then(function(createdId) {
+            return dao.create(version, title, inventory, active);
 
-            var actualCreatedId = createdId.toNumber();
+        }).then(function(result) {
 
-            console.log(actualCreatedId == 1);
+            result.logs.forEach(function(log){
 
-
-            logNewEvent.watch(function(error, result){
-
-                consle.log("EVENT:");
-
-                if (!error) {
-
-                   //Success
-                    assert.isTrue(result.active, "Should be active");
-                    assert.isTrue(result.title != 0, "Should have a title");
-                    assert.isTrue(result.inventory == 5, "Should have 5 in stock");
-                    assert.isTrue(result.owner == dao, "Owner should be this contract");
-
-
-                } else {
-                    //Error
-                    assert.isTrue(false);
+                if (log.event == "LogNew") {
+                    assert.isTrue(log.args.id.toNumber() == 1);
+                    assert.isTrue(log.args.active, "Should be active");
+                    assert.isTrue(log.args.title != 0, "Should have a title");
+                    assert.isTrue(log.args.inventory == 5, "Should have 5 in stock");
+                    assert.isTrue(log.args.owner == accounts[0], "Owner should be this contract");
                 }
             });
 
 
-            // assert.isTrue(createdId != 0); //want to be more specific
-
-            // assert.isTrue(created.active(), "Should be active");
-            // assert.isTrue(created.title() != 0, "Should have a title");
-            // assert.isTrue(created.inventory() == 5, "Should have 5 in stock");
-            // assert.isTrue(created.owner() == dao, "Owner should be this contract");
         })
     });
+
+
+
+
+
+
 
 });
 
