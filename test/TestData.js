@@ -47,10 +47,8 @@ contract('ItemDaoBasic', async (accounts) => {
         inventory = resultArray[4];
         active = resultArray[5];
 
-        assert.isTrue(id === createdId);
-        assertIsPayday(active, title, inventory, owner);
-
-
+        assert.isTrue(id.toNumber() === createdId.toNumber(), "Ids need to match");
+        assertIsPayday(active, title, inventory.toNumber(), owner);
 
     });
 
@@ -63,7 +61,6 @@ contract('ItemDaoBasic', async (accounts) => {
         var title = "Payday";
         var inventory = 5;
         var active = true;
-
 
         return dao.create(version, title, inventory, active);
     }
