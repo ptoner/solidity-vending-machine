@@ -10,7 +10,7 @@ interface ItemDao {
         bool _active
     ) external returns (uint256);
 
-    function read(uint256 _id) external returns (
+    function read(uint256 _id) external view returns (
         uint256 id,
         address owner,
         uint version,
@@ -21,11 +21,9 @@ interface ItemDao {
 
     function update(
         uint256 _id,
-        address _owner,
         uint _version,
         string _title,
-        uint _inventory,
-        bool _active
+        uint _inventory
     ) external;
 
 
@@ -46,25 +44,22 @@ contract ItemDaoBasic is ItemDao {
     }
 
 
-    event LogNew (
+    event ItemEvent (
         uint256 id,
         address owner,
         uint version,
         string title,
         uint inventory,
-        bool active
+        bool active,
+        string eventType
     );
-
-    event Help(
-        string message
-    );
-
 
 
     mapping(uint256 => Item) private itemMapping;
     uint256[] private itemIndex;
+    uint256 itemCounter;
 
-    function read(uint256 _id) external returns (
+    function read(uint256 _id) external view returns (
         uint256 id,
         address owner,
         uint version,
@@ -72,8 +67,6 @@ contract ItemDaoBasic is ItemDao {
         uint inventory,
         bool active
     ) {
-
-        emit Help("GOT HERE");
 
         require(exists(_id));
 
@@ -89,7 +82,9 @@ contract ItemDaoBasic is ItemDao {
         bool _active
     ) external returns (uint256) {
 
-        uint256 id = DaoUtils.generateId(itemIndex);
+        itemCounter++;
+
+        uint256 id = itemCounter;
 
         require(exists(id) == false); //make sure it doesn't exist. Might need refactored so that I can write tests to verify this condition
 
@@ -111,7 +106,15 @@ contract ItemDaoBasic is ItemDao {
         itemIndex.push(id);
 
 
-        emit LogNew(item.id, item.owner, item.version, item.title, item.inventory, item.active);
+        emit ItemEvent(
+            item.id,
+            item.owner,
+            item.version,
+            item.title,
+            item.inventory,
+            item.active,
+            "NEW"
+        );
 
 
         return item.id;
@@ -119,51 +122,72 @@ contract ItemDaoBasic is ItemDao {
 
     function update(
         uint256 _id,
-        address _owner,
         uint _version,
         string _title,
-        uint _inventory,
-        bool _active
-    ) external {
+        uint _inventory
+) external {
+
+        require(exists(_id));
+
+
+        if (itemMapping[_id].version != _version) {
+            itemMapping[_id].version = _version;
+        }
+
+        if (keccak256(bytes(itemMapping[_id].title)) != keccak256(bytes(_title))) {
+            itemMapping[_id].title = _title;
+        }
+
+        if (itemMapping[_id].inventory != _inventory) {
+            itemMapping[_id].inventory = _inventory;
+        }
+
+        emit ItemEvent(
+            itemMapping[_id].id,
+            itemMapping[_id].owner,
+            itemMapping[_id].version,
+            itemMapping[_id].title,
+            itemMapping[_id].inventory,
+            itemMapping[_id].active,
+            "UPDATE"
+        );
 
     }
 
     function remove(uint256 _id) external {
+        require(exists(_id));
+        itemMapping[_id].active = false;
 
     }
 
-    function exists(uint256 _id) private returns (bool) {
+    function exists(uint256 _id) private view returns (bool) {
         if(itemIndex.length == 0) return false;
 
         return itemMapping[_id].active; //should return false if it doesn't exist
     }
 
-    function generateId() private view returns (uint256){
-        return itemIndex.length + 1;
-    }
 
 }
 
 
 
 
-
-
-
-library DaoUtils {
-
-    function generateId(uint256[] existingIds) internal view returns (uint256){
-        return existingIds.length + 1;
-    }
-}
-
-
-//For unit test
-contract DaoUtilsProxy {
-    function generateId(uint256[] existingIds) external view returns (uint256){
-        return DaoUtils.generateId(existingIds);
-    }
-}
+//
+//
+//
+//library DaoUtils {
+//    function generateId(uint256[] existingIds) internal view returns (uint256){
+//        return existingIds.length + 1;
+//    }
+//}
+//
+//
+////For unit test
+//contract DaoUtilsProxy {
+//    function generateId(uint256[] existingIds) external view returns (uint256){
+//        return DaoUtils.generateId(existingIds);
+//    }
+//}
 
 
 
