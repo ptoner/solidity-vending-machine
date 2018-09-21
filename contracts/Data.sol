@@ -1,10 +1,6 @@
 pragma solidity ^0.4.24;
 
 
-
-
-
-
 interface ItemDao {
 
     function create(
@@ -36,6 +32,8 @@ interface ItemDao {
     function remove(uint256 id) external;
 }
 
+
+
 contract ItemDaoBasic is ItemDao {
 
     struct Item {
@@ -64,7 +62,7 @@ contract ItemDaoBasic is ItemDao {
 
 
     mapping(uint256 => Item) private itemMapping;
-    uint[] private itemIndex;
+    uint256[] private itemIndex;
 
     function read(uint256 _id) external returns (
         uint256 id,
@@ -91,7 +89,7 @@ contract ItemDaoBasic is ItemDao {
         bool _active
     ) external returns (uint256) {
 
-        uint256 id = generateId();
+        uint256 id = DaoUtils.generateId(itemIndex);
 
         require(exists(id) == false); //make sure it doesn't exist. Might need refactored so that I can write tests to verify this condition
 
@@ -103,7 +101,6 @@ contract ItemDaoBasic is ItemDao {
             inventory: _inventory,
             active: _active
         });
-
 
 
         //Put item in mapping
@@ -150,6 +147,23 @@ contract ItemDaoBasic is ItemDao {
 
 
 
+
+
+
+library DaoUtils {
+
+    function generateId(uint256[] existingIds) internal view returns (uint256){
+        return existingIds.length + 1;
+    }
+}
+
+
+//For unit test
+contract DaoUtilsProxy {
+    function generateId(uint256[] existingIds) external view returns (uint256){
+        return DaoUtils.generateId(existingIds);
+    }
+}
 
 
 

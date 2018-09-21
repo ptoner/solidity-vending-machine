@@ -92,6 +92,10 @@ contract('ItemDaoBasic', async (accounts) => {
 
 
 
+    //Create tests that measure gas consumption of all of the functions
+
+
+
 });
 
 
