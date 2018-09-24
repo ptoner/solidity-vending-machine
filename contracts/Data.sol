@@ -4,7 +4,7 @@ pragma solidity ^0.4.24;
 interface ItemDao {
 
     function create(uint _version, string _title, uint _inventory) external returns (uint256);
-    function read(uint256 _id) external view returns (uint256 id, address owner, uint version, string title, uint inventory);
+    function read(uint256 _id) external view returns (uint256 id, address owner, uint version, string title, uint inventory, uint256 index);
     function update(uint256 _id, uint _version, string _title, uint _inventory) external;
     function remove(uint256 _id) external;
 }
@@ -37,7 +37,7 @@ contract ItemDaoBasic is ItemDao {
     uint256[] private itemIndex;    //ITEMINDEX IS THE LIST OF ACTIVE THINGS
     uint256 itemCounter;
 
-    function read(uint256 _id) external view returns (uint256 id, address owner, uint version, string title, uint inventory) {
+    function read(uint256 _id) external view returns (uint256 id, address owner, uint version, string title, uint inventory, uint256 index) {
 
         require(exists(_id));
 
@@ -117,9 +117,7 @@ contract ItemDaoBasic is ItemDao {
     }
 
 
-    /**
-        https://medium.com/@robhitchens/solidity-crud-part-2-ed8d8b4f74ec
-    **/
+    //https://medium.com/@robhitchens/solidity-crud-part-2-ed8d8b4f74ec
     function remove(uint256 _id) external {
 
         require(exists(_id));
@@ -136,10 +134,6 @@ contract ItemDaoBasic is ItemDao {
 
         //Get the last id in the list.
         uint256 idToMove = itemIndex[itemIndex.length-1];
-
-        //Update the index of the deleted one to specify that it doesn't exist
-        itemMapping[indexToDelete].index = -1; //Doesn't exist
-
 
         //Move the last item to the place we're trying to remove.
         itemIndex[indexToDelete] = idToMove;
@@ -164,8 +158,18 @@ contract ItemDaoBasic is ItemDao {
     function exists(uint256 _id) private view returns (bool) {
         if (itemIndex.length == 0) return false;
 
-        return itemMapping[_id].index > -1;
-        //should return false if it doesn't exist
+        //Look up item by id and get the current index.
+        uint256 currentIndex = itemMapping[_id].index;
+
+        //Look in indexes and see see what's in the that spot
+        uint256 currentIdAtIndex = itemIndex[currentIndex];
+
+        //See if this id is still at the same place.
+        if (_id == currentIdAtIndex) {
+            return true;
+        }
+
+        return false;
     }
 
 
