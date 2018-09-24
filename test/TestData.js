@@ -16,14 +16,13 @@ contract('ItemDaoBasic', async (accounts) => {
 
         assert.isTrue(log.args.id.toNumber() == 1, "ID should be 1");
         assert.isTrue(log.args.eventType == "NEW", "Type should be NEW");
+        assert.isTrue(log.args.index == 0, "Index should be 0");
         assertIsPayday(
             log.args.active,
             log.args.title,
             log.args.inventory,
             log.args.owner
         );
-
-
     });
 
 
@@ -43,9 +42,10 @@ contract('ItemDaoBasic', async (accounts) => {
         version = resultArray[2];
         title = resultArray[3];
         inventory = resultArray[4];
-        active = resultArray[5];
+        index = resultArray[5];
 
         assert.isTrue(id.toNumber() === createdId.toNumber(), "Ids need to match");
+        assert.isTrue(log.args.index == 1, "Index should be 1");
         assertIsPayday(active, title, inventory.toNumber(), owner);
 
     });
@@ -62,7 +62,6 @@ contract('ItemDaoBasic', async (accounts) => {
         let result = await dao.update(createdId, 2, "Not Payday", 4);
 
 
-
         //Assert
         var log = getLogByEventName("ItemEvent", result.logs);
 
@@ -70,11 +69,66 @@ contract('ItemDaoBasic', async (accounts) => {
         assert.isTrue(log.args.version == 2, "Version should be 2");
         assert.isTrue(log.args.title == "Not Payday", "Title should be Not Payday");
         assert.isTrue(log.args.inventory == 4, "Inventory should be 4");
-        assert.isTrue(log.args.active == true, "Active should still be true");
+        assert.isTrue(log.args.index == 2, "Index should be 2");
         assert.isTrue(log.args.owner == accounts[0], "Owner should be this contract");
-        assert.isTrue(log.args.eventType == "UPDATE", "Type should be NEW");
+        assert.isTrue(log.args.eventType == "UPDATE", "Type should be UPDATE");
 
     });
+
+
+    it("Test remove Payday", async () => {
+
+        let dao = await ItemDaoBasic.deployed();
+
+        //Arrange
+        let createdId = await createPaydayGetCreatedId(dao);
+
+        //Act
+        let result = await dao.remove(createdId);
+
+        console.log(result);
+
+        //Assert
+
+        //Check log
+        var log = getLogByEventName("ItemEvent", result.logs);
+
+        assert.isTrue(log.args.id == createdId.toNumber(), "IDs do not match");
+        assert.isTrue(log.args.version == 1, "Version should be 1");
+        assert.isTrue(log.args.title == "Payday", "Title should be Payday");
+        assert.isTrue(log.args.inventory == 5, "Inventory should be 4");
+        assert.isTrue(log.args.active == false, "Active should be false");
+        assert.isTrue(log.args.owner == accounts[0], "Owner should be this contract");
+        assert.isTrue(log.args.eventType == "REMOVE", "Type should be REMOVE");
+
+
+        //Do a read and make sure it's gone
+        let resultArray = await dao.read.call(createdId);
+
+        console.log(resultArray);
+
+    });
+
+
+
+
+
+
+
+
+
+
+    /*******
+     *
+     *
+     * HELPER STUFF
+     *
+     *
+     *
+     */
+
+
+
 
 
 
