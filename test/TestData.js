@@ -3,6 +3,9 @@ var ItemDaoBasic = artifacts.require("ItemDaoBasic");
 
 contract('ItemDaoBasic', async (accounts) => {
 
+    //Keep track of how many items we inserted so that we can run counts.
+    let createdCount = 0;
+
 
     it("Test create Payday", async () => {
 
@@ -20,6 +23,10 @@ contract('ItemDaoBasic', async (accounts) => {
         assert.isTrue(log.args.title == "Payday", "Should have a title");
         assert.isTrue(log.args.inventory == 5, "Should have 5 in stock");
         assert.isTrue(log.args.owner == accounts[0], "Owner should be this contract");
+
+
+        //Cleanup
+        createdCount++;
     });
 
 
@@ -41,7 +48,7 @@ contract('ItemDaoBasic', async (accounts) => {
         }
 
         assert.isTrue(error instanceof Error, "No exception was thrown when creating a Payday without a title" );
-        assert.isTrue("_title is required" == getRequireMessage(error), "Should fail because title is required");
+        assert.equal("_title is required", getRequireMessage(error), "Should fail because title is required");
 
     });
 
@@ -64,7 +71,7 @@ contract('ItemDaoBasic', async (accounts) => {
         }
 
         assert.isTrue(error instanceof Error, "No exception was thrown when creating a Payday with a negative inventory");
-        assert.isTrue("_inventory must be greater than or equal to 0" == getRequireMessage(error), "Should fail because inventory is less than 0");
+        assert.equal("_inventory must be greater than or equal to 0", getRequireMessage(error), "Should fail because inventory is less than 0");
 
     });
 
@@ -86,11 +93,14 @@ contract('ItemDaoBasic', async (accounts) => {
         inventory = resultArray[4];
         index = resultArray[5];
 
-        assert.isTrue(id.toNumber() === createdId.toNumber(), "Ids need to match");
-        assert.isTrue(index == 1, "Index should be 1");
-        assert.isTrue(title == "Payday", "Should have a title");
-        assert.isTrue(inventory == 5, "Should have 5 in stock");
-        assert.isTrue(owner == accounts[0], "Owner should be this contract");
+        assert.equal(id.toNumber(), createdId.toNumber(), "Ids need to match");
+        assert.equal(index, 1, "Index should be 1");
+        assert.equal(title, "Payday", "Should have a title");
+        assert.equal(inventory, 5, "Should have 5 in stock");
+        assert.equal(owner,accounts[0], "Owner should be this contract");
+
+        //Cleanup
+        createdCount++;
 
     });
 
@@ -109,7 +119,7 @@ contract('ItemDaoBasic', async (accounts) => {
         }
 
         assert.isTrue(error instanceof Error, "Not an error :(");
-        assert.isTrue("This ID does not exist" == getRequireMessage(error), "Should fail to read nonexistent item");
+        assert.equal("This ID does not exist", getRequireMessage(error), "Should fail to read nonexistent item");
 
     });
 
@@ -126,7 +136,7 @@ contract('ItemDaoBasic', async (accounts) => {
         }
 
         assert.isTrue(error instanceof Error, "Not an error :(");
-        assert.isTrue("This ID does not exist" == getRequireMessage(error), "Should fail to read nonexistent item with negative ID");
+        assert.equal("This ID does not exist", getRequireMessage(error), "Should fail to read nonexistent item with negative ID");
 
     });
 
@@ -145,13 +155,16 @@ contract('ItemDaoBasic', async (accounts) => {
         //Assert
         var log = getLogByEventName("ItemEvent", result.logs);
 
-        assert.isTrue(log.args.id == createdId.toNumber(), "IDs do not match");
-        assert.isTrue(log.args.version == 2, "Version should be 2");
-        assert.isTrue(log.args.title == "Not Payday", "Title should be Not Payday");
-        assert.isTrue(log.args.inventory == 4, "Inventory should be 4");
-        assert.isTrue(log.args.index == 2, "Index should be 2");
-        assert.isTrue(log.args.owner == accounts[0], "Owner should be this contract");
-        assert.isTrue(log.args.eventType == "UPDATE", "Type should be UPDATE");
+        assert.equal(log.args.id,createdId.toNumber(), "IDs do not match");
+        assert.equal(log.args.version, 2, "Version should be 2");
+        assert.equal(log.args.title, "Not Payday", "Title should be Not Payday");
+        assert.equal(log.args.inventory, 4, "Inventory should be 4");
+        assert.equal(log.args.index, 2, "Index should be 2");
+        assert.equal(log.args.owner,accounts[0], "Owner should be this contract");
+        assert.equal(log.args.eventType, "UPDATE", "Type should be UPDATE");
+
+        //Cleanup
+        createdCount++;
 
     });
 
@@ -173,13 +186,13 @@ contract('ItemDaoBasic', async (accounts) => {
         //Check log
         var log = getLogByEventName("ItemEvent", result.logs);
 
-        assert.isTrue(log.args.id == createdId.toNumber(), "IDs do not match");
-        assert.isTrue(log.args.version == 1, "Version should be 1");
-        assert.isTrue(log.args.title == "Payday", "Title should be Payday");
-        assert.isTrue(log.args.inventory == 5, "Inventory should be 5");
-        assert.isTrue(log.args.index == 3, "Active should be false");
-        assert.isTrue(log.args.owner == accounts[0], "Owner should be this contract");
-        assert.isTrue(log.args.eventType == "REMOVE", "Type should be REMOVE");
+        assert.equal(log.args.id, createdId.toNumber(), "IDs do not match");
+        assert.equal(log.args.version, 1, "Version should be 1");
+        assert.equal(log.args.title,"Payday", "Title should be Payday");
+        assert.equal(log.args.inventory , 5, "Inventory should be 5");
+        assert.equal(log.args.index, 3, "Active should be false");
+        assert.equal(log.args.owner, accounts[0], "Owner should be this contract");
+        assert.equal(log.args.eventType, "REMOVE", "Type should be REMOVE");
 
 
         //Do a read and make sure it's gone
@@ -196,12 +209,25 @@ contract('ItemDaoBasic', async (accounts) => {
         assert.isTrue("This ID does not exist" == getRequireMessage(error), "Should fail to read nonexistent item");
 
 
-        // console.log(resultArray);
-
     });
 
 
+    it("Test count", async () => {
 
+        let dao = await ItemDaoBasic.deployed();
+
+        //Arrange
+
+        //Act
+        let result = await dao.count();
+
+
+        //Assert
+        assert.equal(result.toNumber(), createdCount, "Count is incorrect");
+        // assert.isTrue(result.toNumber() == 5, "Should be 5 records");
+
+
+    });
 
 
 

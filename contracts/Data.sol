@@ -3,10 +3,14 @@ pragma solidity ^0.4.24;
 
 interface ItemDao {
 
-    function create(string _title, int _inventory) external returns (uint256);
+    function create(string _title, int _inventory) external returns (uint256 id);
     function read(uint256 _id) external view returns (uint256 id, address owner, uint version, string title, int inventory, uint256 index);
     function update(uint256 _id, uint _version, string _title, int _inventory) external;
     function remove(uint256 _id) external;
+
+    //Paging functionality
+    function count() external constant returns (uint256 count);
+    function readByIndex(uint256 _index) external constant returns (uint256 id, address owner, uint version, string title, int inventory, uint256 index);
 }
 
 
@@ -176,6 +180,26 @@ contract ItemDaoBasic is ItemDao {
 
     }
 
+
+    function count() external constant returns (uint256 count) {
+        return itemIndex.length;
+    }
+
+
+    function readByIndex(uint256 _index) external constant returns (uint256 id, address owner, uint version, string title, int inventory, uint256 index) {
+
+        require(index < itemIndex.length, "No item at this index");
+
+        uint256 idAtIndex = itemIndex[index];
+
+
+        Item storage item = itemMapping[idAtIndex];
+
+
+        return (item.id, item.owner, item.version, item.title, item.inventory, item.index);
+    }
+
+
     function exists(uint256 _id) private view returns (bool) {
 
         if (itemIndex.length == 0) return false;
@@ -197,6 +221,9 @@ contract ItemDaoBasic is ItemDao {
 
         return false;
     }
+
+
+
 
 
 }
