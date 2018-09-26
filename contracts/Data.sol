@@ -33,9 +33,9 @@ contract ItemDaoBasic is ItemDao {
     );
 
 
-//    event DebugEvent (
-//        uint256 message
-//    );
+    event DebugEvent (
+        uint256 message
+    );
 
     mapping(uint256 => Item) private itemMapping; //ITEMMAPPING IS NOT THE LIST OF ACTIVE THINGS
     uint256[] private itemIndex;    //ITEMINDEX IS THE LIST OF ACTIVE THINGS
@@ -46,6 +46,8 @@ contract ItemDaoBasic is ItemDao {
         require(exists(_id), "This ID does not exist");
 
         Item storage item = itemMapping[_id];
+
+//        emit DebugEvent(item.inventory);
 
         return (item.id, item.owner, item.version, item.title, item.inventory, item.index);
     }
@@ -175,18 +177,23 @@ contract ItemDaoBasic is ItemDao {
     }
 
     function exists(uint256 _id) private view returns (bool) {
+
         if (itemIndex.length == 0) return false;
 
         //Look up item by id and get the current index.
         uint256 currentIndex = itemMapping[_id].index;
 
         //Look in indexes and see see what's in the that spot
-        uint256 currentIdAtIndex = itemIndex[currentIndex];
+        if (itemIndex.length > currentIndex) {
 
-        //See if this id is still at the same place.
-        if (_id == currentIdAtIndex) {
-            return true;
+            uint256 currentIdAtIndex = itemIndex[currentIndex];
+
+            //See if this id is still at the same place.
+            if (_id == currentIdAtIndex) {
+                return true;
+            }
         }
+
 
         return false;
     }

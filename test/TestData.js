@@ -23,7 +23,6 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
-
     it("Test create Payday no title", async () => {
 
         let dao = await ItemDaoBasic.deployed();
@@ -45,6 +44,7 @@ contract('ItemDaoBasic', async (accounts) => {
         assert.isTrue("_title is required" == getRequireMessage(error), "Should fail because title is required");
 
     });
+
 
     it("Test create Payday negative inventory", async () => {
 
@@ -95,9 +95,6 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
-
-
-
     it("Test read non-existent item ID", async () => {
 
         let dao = await ItemDaoBasic.deployed();
@@ -117,7 +114,6 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
-
     it("Test read non-existent negative ID", async () => {
 
         let dao = await ItemDaoBasic.deployed();
@@ -133,8 +129,6 @@ contract('ItemDaoBasic', async (accounts) => {
         assert.isTrue("This ID does not exist" == getRequireMessage(error), "Should fail to read nonexistent item with negative ID");
 
     });
-
-
 
 
     it("Test update Payday", async () => {
@@ -174,8 +168,6 @@ contract('ItemDaoBasic', async (accounts) => {
         let result = await dao.remove(createdId);
 
 
-
-
         //Assert
 
         //Check log
@@ -198,7 +190,6 @@ contract('ItemDaoBasic', async (accounts) => {
             let resultArray = await dao.read(createdId);
         } catch(ex) {
             error = ex;
-            // console.log(ex.message);
         }
 
         assert.isTrue(error instanceof Error, "Not an error :(");
