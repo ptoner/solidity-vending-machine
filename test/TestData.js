@@ -94,7 +94,11 @@ contract('ItemDaoBasic', async (accounts) => {
 
     });
 
-    it("Test read not Payday", async () => {
+
+
+
+
+    it("Test read non-existent item ID", async () => {
 
         let dao = await ItemDaoBasic.deployed();
 
@@ -111,6 +115,26 @@ contract('ItemDaoBasic', async (accounts) => {
         assert.isTrue("This ID does not exist" == getRequireMessage(error), "Should fail to read nonexistent item");
 
     });
+
+
+
+    it("Test read non-existent negative ID", async () => {
+
+        let dao = await ItemDaoBasic.deployed();
+
+        //Act
+        try {
+            let resultArray = await dao.read(-42);
+        } catch(ex) {
+            error = ex;
+        }
+
+        assert.isTrue(error instanceof Error, "Not an error :(");
+        assert.isTrue("This ID does not exist" == getRequireMessage(error), "Should fail to read nonexistent item with negative ID");
+
+    });
+
+
 
 
     it("Test update Payday", async () => {
@@ -136,46 +160,54 @@ contract('ItemDaoBasic', async (accounts) => {
         assert.isTrue(log.args.eventType == "UPDATE", "Type should be UPDATE");
 
     });
-    //
-    //
-    // it("Test remove Payday", async () => {
-    //
-    //     let dao = await ItemDaoBasic.deployed();
-    //
-    //     //Arrange
-    //     let createdId = await createPaydayGetCreatedId(dao);
-    //
-    //
-    //     //Act
-    //     let result = await dao.remove(createdId);
-    //
-    //     //Assert
-    //
-    //     //Check log
-    //     var log = getLogByEventName("ItemEvent", result.logs);
-    //
-    //     assert.isTrue(log.args.id == createdId.toNumber(), "IDs do not match");
-    //     assert.isTrue(log.args.version == 1, "Version should be 1");
-    //     assert.isTrue(log.args.title == "Payday", "Title should be Payday");
-    //     assert.isTrue(log.args.inventory == 5, "Inventory should be 5");
-    //     assert.isTrue(log.args.index == 3, "Active should be false");
-    //     assert.isTrue(log.args.owner == accounts[0], "Owner should be this contract");
-    //     assert.isTrue(log.args.eventType == "REMOVE", "Type should be REMOVE");
-    //
-    //
-    //     //Do a read and make sure it's gone
-    //     let resultArray = await dao.read(createdId);
-    //     console.log(resultArray);
-    //     assert.isTrue(resultArray[0] == undefined, "ID was not null");
-    //     assert.isTrue(resultArray[1] == undefined, "Version was not null");
-    //     assert.isTrue(resultArray[2] == undefined, "Title was not null");
-    //     assert.isTrue(resultArray[3] == undefined, "Inventory was not null");
-    //     assert.isTrue(resultArray[4] == undefined, "Index was not null");
-    //
-    //
-    //     // console.log(resultArray);
-    //
-    // });
+
+
+    it("Test remove Payday", async () => {
+
+        let dao = await ItemDaoBasic.deployed();
+
+        //Arrange
+        let createdId = await createPaydayGetCreatedId(dao);
+
+
+        //Act
+        let result = await dao.remove(createdId);
+
+
+
+
+        //Assert
+
+        //Check log
+        var log = getLogByEventName("ItemEvent", result.logs);
+
+        assert.isTrue(log.args.id == createdId.toNumber(), "IDs do not match");
+        assert.isTrue(log.args.version == 1, "Version should be 1");
+        assert.isTrue(log.args.title == "Payday", "Title should be Payday");
+        assert.isTrue(log.args.inventory == 5, "Inventory should be 5");
+        assert.isTrue(log.args.index == 3, "Active should be false");
+        assert.isTrue(log.args.owner == accounts[0], "Owner should be this contract");
+        assert.isTrue(log.args.eventType == "REMOVE", "Type should be REMOVE");
+
+
+        //Do a read and make sure it's gone
+        let error;
+
+        //Act
+        try {
+            let resultArray = await dao.read(createdId);
+        } catch(ex) {
+            error = ex;
+            // console.log(ex.message);
+        }
+
+        assert.isTrue(error instanceof Error, "Not an error :(");
+        assert.isTrue("This ID does not exist" == getRequireMessage(error), "Should fail to read nonexistent item");
+
+
+        // console.log(resultArray);
+
+    });
 
 
 
