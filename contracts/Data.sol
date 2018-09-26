@@ -3,7 +3,7 @@ pragma solidity ^0.4.24;
 
 interface ItemDao {
 
-    function create(uint _version, string _title, uint _inventory) external returns (uint256);
+    function create(string _title, uint _inventory) external returns (uint256);
     function read(uint256 _id) external view returns (uint256 id, address owner, uint version, string title, uint inventory, uint256 index);
     function update(uint256 _id, uint _version, string _title, uint _inventory) external;
     function remove(uint256 _id) external;
@@ -33,27 +33,33 @@ contract ItemDaoBasic is ItemDao {
     );
 
 
+//    event DebugEvent (
+//        uint256 message
+//    );
+
     mapping(uint256 => Item) private itemMapping; //ITEMMAPPING IS NOT THE LIST OF ACTIVE THINGS
     uint256[] private itemIndex;    //ITEMINDEX IS THE LIST OF ACTIVE THINGS
-    uint256 itemCounter;
+    uint256 private itemCounter;
 
     function read(uint256 _id) external view returns (uint256 id, address owner, uint version, string title, uint inventory, uint256 index) {
 
-        require(exists(_id));
+        require(exists(_id), "This ID does not exist");
 
         Item storage item = itemMapping[_id];
 
         return (item.id, item.owner, item.version, item.title, item.inventory, item.index);
     }
 
-    function create(uint _version, string _title, uint _inventory) external returns (uint256) {
+    function create(string _title, uint _inventory) external returns (uint256) {
 
         itemCounter++;
 
         uint256 id = itemCounter;
 
+        //Validation
         require(exists(id) == false);
-        //make sure it doesn't exist. Might need refactored so that I can write tests to verify this condition
+        require(bytes(_title).length > 0, "_title is required ");
+
 
         Item memory item = Item({
             id : id,
@@ -65,6 +71,11 @@ contract ItemDaoBasic is ItemDao {
             });
 
 
+        //Make sure appropriate values get set.
+        require(item.id != 0);
+        require(item.owner != 0);
+
+
         //Put item in mapping
         itemMapping[id] = item;
 
@@ -74,17 +85,17 @@ contract ItemDaoBasic is ItemDao {
 
 
         emit ItemEvent(
-            item.id,
-            item.owner,
-            item.version,
-            item.title,
-            item.inventory,
-            item.index,
+            itemMapping[id].id,
+            itemMapping[id].owner,
+            itemMapping[id].version,
+            itemMapping[id].title,
+            itemMapping[id].inventory,
+            itemMapping[id].index,
             "NEW"
         );
 
 
-        return item.id;
+        return itemMapping[id].id;
     }
 
     function update(uint256 _id, uint _version, string _title, uint _inventory) external {
@@ -117,6 +128,8 @@ contract ItemDaoBasic is ItemDao {
     }
 
 
+
+
     //https://medium.com/@robhitchens/solidity-crud-part-2-ed8d8b4f74ec
     function remove(uint256 _id) external {
 
@@ -135,11 +148,16 @@ contract ItemDaoBasic is ItemDao {
         //Get the last id in the list.
         uint256 idToMove = itemIndex[itemIndex.length-1];
 
-        //Move the last item to the place we're trying to remove.
-        itemIndex[indexToDelete] = idToMove;
+        if (idToMove == _id) {
+            delete itemIndex[indexToDelete];
+            itemIndex.length--;
+        } else {
+            //Move the last item to the place we're trying to remove.
+            itemIndex[indexToDelete] = idToMove;
 
-        //Update the index of the moved one to tell it where it is in the index.
-        itemMapping[idToMove].index = indexToDelete;
+            //Update the index of the moved one to tell it where it is in the index.
+            itemMapping[idToMove].index = indexToDelete;
+        }
 
 
 
