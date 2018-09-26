@@ -3,9 +3,9 @@ pragma solidity ^0.4.24;
 
 interface ItemDao {
 
-    function create(string _title, uint _inventory) external returns (uint256);
-    function read(uint256 _id) external view returns (uint256 id, address owner, uint version, string title, uint inventory, uint256 index);
-    function update(uint256 _id, uint _version, string _title, uint _inventory) external;
+    function create(string _title, int _inventory) external returns (uint256);
+    function read(uint256 _id) external view returns (uint256 id, address owner, uint version, string title, int inventory, uint256 index);
+    function update(uint256 _id, uint _version, string _title, int _inventory) external;
     function remove(uint256 _id) external;
 }
 
@@ -17,7 +17,7 @@ contract ItemDaoBasic is ItemDao {
         address owner;
         uint version;
         string title;
-        uint inventory;
+        int inventory;
         uint256 index;
     }
 
@@ -27,7 +27,7 @@ contract ItemDaoBasic is ItemDao {
         address owner,
         uint version,
         string title,
-        uint inventory,
+        int inventory,
         uint256 index,
         string eventType
     );
@@ -41,7 +41,7 @@ contract ItemDaoBasic is ItemDao {
     uint256[] private itemIndex;    //ITEMINDEX IS THE LIST OF ACTIVE THINGS
     uint256 private itemCounter;
 
-    function read(uint256 _id) external view returns (uint256 id, address owner, uint version, string title, uint inventory, uint256 index) {
+    function read(uint256 _id) external view returns (uint256 id, address owner, uint version, string title, int inventory, uint256 index) {
 
         require(exists(_id), "This ID does not exist");
 
@@ -50,7 +50,7 @@ contract ItemDaoBasic is ItemDao {
         return (item.id, item.owner, item.version, item.title, item.inventory, item.index);
     }
 
-    function create(string _title, uint _inventory) external returns (uint256) {
+    function create(string _title, int _inventory) external returns (uint256) {
 
         itemCounter++;
 
@@ -58,6 +58,7 @@ contract ItemDaoBasic is ItemDao {
 
         //Validation
         require(exists(id) == false);
+        require(_inventory > 0, "_inventory must be greater than or equal to 0");
         require(bytes(_title).length > 0, "_title is required ");
 
 
@@ -98,7 +99,7 @@ contract ItemDaoBasic is ItemDao {
         return itemMapping[id].id;
     }
 
-    function update(uint256 _id, uint _version, string _title, uint _inventory) external {
+    function update(uint256 _id, uint _version, string _title, int _inventory) external {
 
         require(exists(_id));
 

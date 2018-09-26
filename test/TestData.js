@@ -39,65 +39,103 @@ contract('ItemDaoBasic', async (accounts) => {
             let result = await dao.create(title, inventory);
         } catch(ex) {
             error = ex;
-            console.log(ex.name);
-            console.log(ex.message);
         }
 
         assert.isTrue(error instanceof Error, "No exception was thrown when creating a Payday without a title" );
+        assert.isTrue("_title is required" == getRequireMessage(error), "Should fail because title is required");
+
+    });
+
+    it("Test create Payday negative inventory", async () => {
+
+        let dao = await ItemDaoBasic.deployed();
+
+        //Arrange
+        var title="Payday";
+        var inventory = -1;
+
+        let error;
+
+        //Act
+        try {
+            let result = await dao.create(title, inventory);
+        } catch(ex) {
+            error = ex;
+        }
+
+        assert.isTrue(error instanceof Error, "No exception was thrown when creating a Payday with a negative inventory");
+        assert.isTrue("_inventory must be greater than or equal to 0" == getRequireMessage(error), "Should fail because inventory is less than 0");
 
     });
 
 
-    //
-    // it("Test read Payday", async () => {
-    //
-    //     let dao = await ItemDaoBasic.deployed();
-    //
-    //     //Arrange
-    //     let createdId = await createPaydayGetCreatedId(dao);
-    //
-    //     //Act
-    //     let resultArray = await dao.read.call(createdId);
-    //
-    //     id = resultArray[0];
-    //     owner = resultArray[1];
-    //     version = resultArray[2];
-    //     title = resultArray[3];
-    //     inventory = resultArray[4];
-    //     index = resultArray[5];
-    //
-    //     assert.isTrue(id.toNumber() === createdId.toNumber(), "Ids need to match");
-    //     assert.isTrue(index == 1, "Index should be 1");
-    //     assert.isTrue(title == "Payday", "Should have a title");
-    //     assert.isTrue(inventory == 5, "Should have 5 in stock");
-    //     assert.isTrue(owner == accounts[0], "Owner should be this contract");
-    //
-    // });
-    //
-    //
-    // it("Test update Payday", async () => {
-    //
-    //     let dao = await ItemDaoBasic.deployed();
-    //
-    //     //Arrange
-    //     let createdId = await createPaydayGetCreatedId(dao);
-    //
-    //     //Act
-    //     let result = await dao.update(createdId, 2, "Not Payday", 4);
-    //
-    //
-    //     //Assert
-    //     var log = getLogByEventName("ItemEvent", result.logs);
-    //
-    //     assert.isTrue(log.args.id == createdId.toNumber(), "IDs do not match");
-    //     assert.isTrue(log.args.version == 2, "Version should be 2");
-    //     assert.isTrue(log.args.title == "Not Payday", "Title should be Not Payday");
-    //     assert.isTrue(log.args.inventory == 4, "Inventory should be 4");
-    //     assert.isTrue(log.args.index == 2, "Index should be 2");
-    //     assert.isTrue(log.args.owner == accounts[0], "Owner should be this contract");
-    //     assert.isTrue(log.args.eventType == "UPDATE", "Type should be UPDATE");
-    //
-    // });
+    it("Test read Payday", async () => {
+
+        let dao = await ItemDaoBasic.deployed();
+
+        //Arrange
+        let createdId = await createPaydayGetCreatedId(dao);
+
+        //Act
+        let resultArray = await dao.read.call(createdId);
+
+        id = resultArray[0];
+        owner = resultArray[1];
+        version = resultArray[2];
+        title = resultArray[3];
+        inventory = resultArray[4];
+        index = resultArray[5];
+
+        assert.isTrue(id.toNumber() === createdId.toNumber(), "Ids need to match");
+        assert.isTrue(index == 1, "Index should be 1");
+        assert.isTrue(title == "Payday", "Should have a title");
+        assert.isTrue(inventory == 5, "Should have 5 in stock");
+        assert.isTrue(owner == accounts[0], "Owner should be this contract");
+
+    });
+
+    it("Test read not Payday", async () => {
+
+        let dao = await ItemDaoBasic.deployed();
+
+        let error;
+
+        //Act
+        try {
+            let resultArray = await dao.read(42);
+        } catch(ex) {
+            error = ex;
+        }
+
+        assert.isTrue(error instanceof Error, "Not an error :(");
+        assert.isTrue("This ID does not exist" == getRequireMessage(error), "Should fail to read nonexistent item");
+
+    });
+
+
+    it("Test update Payday", async () => {
+
+        let dao = await ItemDaoBasic.deployed();
+
+        //Arrange
+        let createdId = await createPaydayGetCreatedId(dao);
+
+        //Act
+        let result = await dao.update(createdId, 2, "Not Payday", 4);
+
+
+        //Assert
+        var log = getLogByEventName("ItemEvent", result.logs);
+
+        assert.isTrue(log.args.id == createdId.toNumber(), "IDs do not match");
+        assert.isTrue(log.args.version == 2, "Version should be 2");
+        assert.isTrue(log.args.title == "Not Payday", "Title should be Not Payday");
+        assert.isTrue(log.args.inventory == 4, "Inventory should be 4");
+        assert.isTrue(log.args.index == 2, "Index should be 2");
+        assert.isTrue(log.args.owner == accounts[0], "Owner should be this contract");
+        assert.isTrue(log.args.eventType == "UPDATE", "Type should be UPDATE");
+
+    });
     //
     //
     // it("Test remove Payday", async () => {
@@ -203,9 +241,9 @@ contract('ItemDaoBasic', async (accounts) => {
 
 
     function getRequireMessage(ex) {
-        ex.message
-
-
+        // return ex.message.substr(43);
+        // return ex.message;
+        return ex.message.substr(ex.message.lastIndexOf(": revert")+8).trim();
     }
 
 
