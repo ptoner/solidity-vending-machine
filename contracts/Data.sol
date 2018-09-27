@@ -5,11 +5,11 @@ interface ItemDao {
 
     function create(string _title, int _inventory) external returns (uint256 id);
     function read(uint256 _id) external view returns (uint256 id, address owner, uint version, string title, int inventory, uint256 index);
-    function update(uint256 _id, uint _version, string _title, int _inventory) external;
+    function update(uint256 _id, string _title, int _inventory) external;
     function remove(uint256 _id) external;
 
     //Paging functionality
-    function count() external constant returns (uint256 count);
+    function count() external constant returns (uint256 theCount);
     function readByIndex(uint256 _index) external constant returns (uint256 id, address owner, uint version, string title, int inventory, uint256 index);
 }
 
@@ -105,14 +105,10 @@ contract ItemDaoBasic is ItemDao {
         return itemMapping[id].id;
     }
 
-    function update(uint256 _id, uint _version, string _title, int _inventory) external {
+    function update(uint256 _id, string _title, int _inventory) external {
 
         require(exists(_id));
 
-
-        if (itemMapping[_id].version != _version) {
-            itemMapping[_id].version = _version;
-        }
 
         if (keccak256(bytes(itemMapping[_id].title)) != keccak256(bytes(_title))) {
             itemMapping[_id].title = _title;
@@ -121,6 +117,10 @@ contract ItemDaoBasic is ItemDao {
         if (itemMapping[_id].inventory != _inventory) {
             itemMapping[_id].inventory = _inventory;
         }
+
+
+        //Bump version up
+        itemMapping[_id].version++;
 
         emit ItemEvent(
             itemMapping[_id].id,
@@ -181,16 +181,16 @@ contract ItemDaoBasic is ItemDao {
     }
 
 
-    function count() external constant returns (uint256 count) {
+    function count() external constant returns (uint256 theCount) {
         return itemIndex.length;
     }
 
 
     function readByIndex(uint256 _index) external constant returns (uint256 id, address owner, uint version, string title, int inventory, uint256 index) {
 
-        require(index < itemIndex.length, "No item at this index");
+        require(_index < itemIndex.length, "No item at this index");
 
-        uint256 idAtIndex = itemIndex[index];
+        uint256 idAtIndex = itemIndex[_index];
 
 
         Item storage item = itemMapping[idAtIndex];

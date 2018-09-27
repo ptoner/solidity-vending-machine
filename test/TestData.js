@@ -3,16 +3,19 @@ var ItemDaoBasic = artifacts.require("ItemDaoBasic");
 
 contract('ItemDaoBasic', async (accounts) => {
 
+    let dao;
+
     //Keep track of how many items we inserted so that we can run counts.
     let createdCount = 0;
 
 
     it("Test create Payday", async () => {
 
-        let dao = await ItemDaoBasic.deployed();
+        dao = await ItemDaoBasic.deployed();
 
         //Arrange and act
         let result = await createPayday(dao);
+
 
         //Assert
         var log = getLogByEventName("ItemEvent", result.logs);
@@ -25,6 +28,16 @@ contract('ItemDaoBasic', async (accounts) => {
         assert.isTrue(log.args.owner == accounts[0], "Owner should be this contract");
 
 
+        //Also verify with a read.
+        let item = await read(log.args.id.toNumber());
+
+        assert.equal(item.id.toNumber(), log.args.id.toNumber(), "Ids need to match");
+        assert.equal(item.index, 0, "Index should be 1");
+        assert.equal(item.title, "Payday", "Should have a title");
+        assert.equal(item.inventory, 5, "Should have 5 in stock");
+        assert.equal(item.owner,accounts[0], "Owner should be this contract");
+
+
         //Cleanup
         createdCount++;
     });
@@ -32,7 +45,7 @@ contract('ItemDaoBasic', async (accounts) => {
 
     it("Test create Payday no title", async () => {
 
-        let dao = await ItemDaoBasic.deployed();
+        dao = await ItemDaoBasic.deployed();
 
         //Arrange
         var title="";
@@ -55,7 +68,7 @@ contract('ItemDaoBasic', async (accounts) => {
 
     it("Test create Payday negative inventory", async () => {
 
-        let dao = await ItemDaoBasic.deployed();
+        dao = await ItemDaoBasic.deployed();
 
         //Arrange
         var title="Payday";
@@ -78,26 +91,19 @@ contract('ItemDaoBasic', async (accounts) => {
 
     it("Test read Payday", async () => {
 
-        let dao = await ItemDaoBasic.deployed();
+        dao = await ItemDaoBasic.deployed();
 
         //Arrange
         let createdId = await createPaydayGetCreatedId(dao);
 
         //Act
-        let resultArray = await dao.read.call(createdId);
+        let item = await read(createdId);
 
-        id = resultArray[0];
-        owner = resultArray[1];
-        version = resultArray[2];
-        title = resultArray[3];
-        inventory = resultArray[4];
-        index = resultArray[5];
-
-        assert.equal(id.toNumber(), createdId.toNumber(), "Ids need to match");
-        assert.equal(index, 1, "Index should be 1");
-        assert.equal(title, "Payday", "Should have a title");
-        assert.equal(inventory, 5, "Should have 5 in stock");
-        assert.equal(owner,accounts[0], "Owner should be this contract");
+        assert.equal(item.id.toNumber(), createdId.toNumber(), "Ids need to match");
+        assert.equal(item.index, 1, "Index should be 1");
+        assert.equal(item.title, "Payday", "Should have a title");
+        assert.equal(item.inventory, 5, "Should have 5 in stock");
+        assert.equal(item.owner,accounts[0], "Owner should be this contract");
 
         //Cleanup
         createdCount++;
@@ -105,9 +111,10 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
+
     it("Test read non-existent item ID", async () => {
 
-        let dao = await ItemDaoBasic.deployed();
+        dao = await ItemDaoBasic.deployed();
 
         let error;
 
@@ -126,7 +133,7 @@ contract('ItemDaoBasic', async (accounts) => {
 
     it("Test read non-existent negative ID", async () => {
 
-        let dao = await ItemDaoBasic.deployed();
+        dao = await ItemDaoBasic.deployed();
 
         //Act
         try {
@@ -143,13 +150,13 @@ contract('ItemDaoBasic', async (accounts) => {
 
     it("Test update Payday", async () => {
 
-        let dao = await ItemDaoBasic.deployed();
+        dao = await ItemDaoBasic.deployed();
 
         //Arrange
         let createdId = await createPaydayGetCreatedId(dao);
 
         //Act
-        let result = await dao.update(createdId, 2, "Not Payday", 4);
+        let result = await dao.update(createdId, "Not Payday", 4);
 
 
         //Assert
@@ -171,7 +178,7 @@ contract('ItemDaoBasic', async (accounts) => {
 
     it("Test remove Payday", async () => {
 
-        let dao = await ItemDaoBasic.deployed();
+        dao = await ItemDaoBasic.deployed();
 
         //Arrange
         let createdId = await createPaydayGetCreatedId(dao);
@@ -206,7 +213,7 @@ contract('ItemDaoBasic', async (accounts) => {
         }
 
         assert.isTrue(error instanceof Error, "Not an error :(");
-        assert.isTrue("This ID does not exist" == getRequireMessage(error), "Should fail to read nonexistent item");
+        assert.equal("This ID does not exist", getRequireMessage(error), "Should fail to read nonexistent item");
 
 
     });
@@ -214,7 +221,7 @@ contract('ItemDaoBasic', async (accounts) => {
 
     it("Test count", async () => {
 
-        let dao = await ItemDaoBasic.deployed();
+        dao = await ItemDaoBasic.deployed();
 
         //Arrange
 
@@ -224,13 +231,30 @@ contract('ItemDaoBasic', async (accounts) => {
 
         //Assert
         assert.equal(result.toNumber(), createdCount, "Count is incorrect");
-        // assert.isTrue(result.toNumber() == 5, "Should be 5 records");
-
 
     });
 
 
+    it("Delete all then count", async () => {
 
+        dao = await ItemDaoBasic.deployed();
+
+        //Arrange
+        let items = await readItemList(Number.MAX_SAFE_INTEGER, 0);
+
+        //Delete them all
+        for (item of items) {
+            await dao.remove(item.id);
+        }
+
+        //Act
+        let result = await dao.count();
+
+
+        //Assert
+        assert.equal(result.toNumber(), 0, "Count is incorrect");
+
+    });
 
 
 
@@ -245,6 +269,38 @@ contract('ItemDaoBasic', async (accounts) => {
      */
 
 
+    async function read(id) {
+        let resultArray = await dao.read(id);
+        return itemMapper(resultArray);
+    }
+
+
+    async function readItemList(limit, offset) {
+
+        let currentCount = await dao.count();
+
+        let items = [];
+
+        for (var i=offset; (i < currentCount) || (i - offset == limit); i++) {
+            let resultArray = await dao.readByIndex(i);
+            items.push(itemMapper(resultArray));
+        }
+
+        return items;
+
+    }
+
+
+    function itemMapper(resultArray) {
+        return {
+            id: resultArray[0],
+            owner: resultArray[1],
+            version: resultArray[2],
+            title: resultArray[3],
+            inventory: resultArray[4],
+            index: resultArray[5]
+        }
+    }
 
 
 
@@ -266,6 +322,8 @@ contract('ItemDaoBasic', async (accounts) => {
         let createdId = log.args.id;
         return createdId;
     }
+
+
 
 
 
