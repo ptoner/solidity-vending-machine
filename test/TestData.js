@@ -253,29 +253,43 @@ contract('ItemDaoBasic', async (accounts) => {
         dao = await ItemDaoBasic.deployed();
 
         //Arrange
-        let createdId = await createPaydayGetCreatedId(dao);
-        let createdId2 = await createPaydayGetCreatedId(dao);
-        let createdId3 = await createPaydayGetCreatedId(dao);
-
-
         let items = await callReadItemList(Number.MAX_SAFE_INTEGER, 0);
 
 
         //Delete them all
         for (item of items) {
             let resultArray = await dao.remove(item.id.toNumber());
-            // printReceipt(`Deleting ${item.id}`, resultArray);
         }
 
         //Act
         let result = await dao.count();
 
 
-
         //Assert
         assert.equal(result.toNumber(), 0, "Count is incorrect");
 
     });
+
+
+
+    it("Add 50 records then count", async () => {
+
+        dao = await ItemDaoBasic.deployed();
+
+        //Arrange
+        for (var i=0; i < 50; i++) {
+            await createPaydayGetCreatedId(dao);
+        }
+
+        //Act
+        let result = await dao.count();
+
+
+        //Assert
+        assert.equal(result.toNumber(), 50, "Count is incorrect");
+
+    });
+
 
 
 
