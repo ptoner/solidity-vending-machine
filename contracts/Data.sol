@@ -38,8 +38,13 @@ contract ItemDaoBasic is ItemDao {
 
 
     event DebugEvent (
-        uint256 message
+        uint256[] message
     );
+
+    event DebugNumberEvent (
+        uint256 number
+    );
+
 
     mapping(uint256 => Item) private itemMapping; //ITEMMAPPING IS NOT THE LIST OF ACTIVE THINGS
     uint256[] private itemIndex;    //ITEMINDEX IS THE LIST OF ACTIVE THINGS
@@ -90,6 +95,7 @@ contract ItemDaoBasic is ItemDao {
         //Put id in index
         itemIndex.push(id);
 
+//        emit DebugEvent(itemIndex);
 
         emit ItemEvent(
             itemMapping[id].id,
@@ -155,10 +161,13 @@ contract ItemDaoBasic is ItemDao {
         //Get the last id in the list.
         uint256 idToMove = itemIndex[itemIndex.length-1];
 
-        if (idToMove == _id) {
-            delete itemIndex[indexToDelete];
-            itemIndex.length--;
-        } else {
+
+        emit DebugNumberEvent(indexToDelete);
+        emit DebugNumberEvent(idToMove);
+        emit DebugNumberEvent(_id);
+
+        if (idToMove != _id) {
+
             //Move the last item to the place we're trying to remove.
             itemIndex[indexToDelete] = idToMove;
 
@@ -166,7 +175,12 @@ contract ItemDaoBasic is ItemDao {
             itemMapping[idToMove].index = indexToDelete;
         }
 
+        //Delete last item in list
+        delete itemIndex[itemIndex.length-1];
+        itemIndex.length--;
 
+
+//        emit DebugEvent(itemIndex);
 
         emit ItemEvent(
             itemMapping[_id].id,

@@ -170,6 +170,19 @@ contract('ItemDaoBasic', async (accounts) => {
         assert.equal(log.args.owner,accounts[0], "Owner should be this contract");
         assert.equal(log.args.eventType, "UPDATE", "Type should be UPDATE");
 
+
+        //Try to read it and make sure the values stuck.
+        let item = await callRead(createdId.toNumber());
+
+
+        assert.equal(item.id, createdId.toNumber(), "IDs do not match");
+        assert.equal(item.version, 2, "Version should be 2");
+        assert.equal(item.title, "Not Payday", "Title should be Not Payday");
+        assert.equal(item.inventory, 4, "Inventory should be 4");
+        assert.equal(item.index, 2, "Index should be 2");
+        assert.equal(item.owner,accounts[0], "Owner should be this contract");
+
+
         //Cleanup
         createdCount++;
 
@@ -240,15 +253,23 @@ contract('ItemDaoBasic', async (accounts) => {
         dao = await ItemDaoBasic.deployed();
 
         //Arrange
+        let createdId = await createPaydayGetCreatedId(dao);
+        let createdId2 = await createPaydayGetCreatedId(dao);
+        let createdId3 = await createPaydayGetCreatedId(dao);
+
+
         let items = await callReadItemList(Number.MAX_SAFE_INTEGER, 0);
+
 
         //Delete them all
         for (item of items) {
-            await dao.remove(item.id);
+            let resultArray = await dao.remove(item.id.toNumber());
+            // printReceipt(`Deleting ${item.id}`, resultArray);
         }
 
         //Act
         let result = await dao.count();
+
 
 
         //Assert
