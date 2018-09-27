@@ -9,13 +9,14 @@ contract('ItemDaoBasic', async (accounts) => {
     let createdCount = 0;
 
 
-    it("Test create Payday", async () => {
+    it("Test create Item", async () => {
 
         dao = await ItemDaoBasic.deployed();
 
         //Arrange and act
         let result = await createPayday(dao);
 
+        // printReceipt("Create Payday", result);
 
         //Assert
         var log = getLogByEventName("ItemEvent", result.logs);
@@ -29,7 +30,7 @@ contract('ItemDaoBasic', async (accounts) => {
 
 
         //Also verify with a read.
-        let item = await read(log.args.id.toNumber());
+        let item = await callRead(log.args.id.toNumber());
 
         assert.equal(item.id.toNumber(), log.args.id.toNumber(), "Ids need to match");
         assert.equal(item.index, 0, "Index should be 1");
@@ -43,7 +44,7 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
-    it("Test create Payday no title", async () => {
+    it("Test create Item: no title", async () => {
 
         dao = await ItemDaoBasic.deployed();
 
@@ -66,7 +67,7 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
-    it("Test create Payday negative inventory", async () => {
+    it("Test create Item: negative inventory", async () => {
 
         dao = await ItemDaoBasic.deployed();
 
@@ -89,7 +90,7 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
-    it("Test read Payday", async () => {
+    it("Test read Item", async () => {
 
         dao = await ItemDaoBasic.deployed();
 
@@ -97,7 +98,7 @@ contract('ItemDaoBasic', async (accounts) => {
         let createdId = await createPaydayGetCreatedId(dao);
 
         //Act
-        let item = await read(createdId);
+        let item = await callRead(createdId);
 
         assert.equal(item.id.toNumber(), createdId.toNumber(), "Ids need to match");
         assert.equal(item.index, 1, "Index should be 1");
@@ -111,8 +112,7 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
-
-    it("Test read non-existent item ID", async () => {
+    it("Test read Item: non-existent item ID", async () => {
 
         dao = await ItemDaoBasic.deployed();
 
@@ -120,7 +120,7 @@ contract('ItemDaoBasic', async (accounts) => {
 
         //Act
         try {
-            let resultArray = await dao.read(42);
+            let resultArray = await dao.read.call(42);
         } catch(ex) {
             error = ex;
         }
@@ -131,13 +131,13 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
-    it("Test read non-existent negative ID", async () => {
+    it("Test read Item: non-existent negative ID", async () => {
 
         dao = await ItemDaoBasic.deployed();
 
         //Act
         try {
-            let resultArray = await dao.read(-42);
+            let resultArray = await dao.read.call(-42);
         } catch(ex) {
             error = ex;
         }
@@ -148,7 +148,7 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
-    it("Test update Payday", async () => {
+    it("Test update Item", async () => {
 
         dao = await ItemDaoBasic.deployed();
 
@@ -176,7 +176,7 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
-    it("Test remove Payday", async () => {
+    it("Test remove Item", async () => {
 
         dao = await ItemDaoBasic.deployed();
 
@@ -219,7 +219,7 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
-    it("Test count", async () => {
+    it("Test count Items", async () => {
 
         dao = await ItemDaoBasic.deployed();
 
@@ -235,12 +235,12 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
-    it("Delete all then count", async () => {
+    it("Delete all Items then count", async () => {
 
         dao = await ItemDaoBasic.deployed();
 
         //Arrange
-        let items = await readItemList(Number.MAX_SAFE_INTEGER, 0);
+        let items = await callReadItemList(Number.MAX_SAFE_INTEGER, 0);
 
         //Delete them all
         for (item of items) {
@@ -269,20 +269,20 @@ contract('ItemDaoBasic', async (accounts) => {
      */
 
 
-    async function read(id) {
-        let resultArray = await dao.read(id);
+    async function callRead(id) {
+        let resultArray = await dao.read.call(id);
         return itemMapper(resultArray);
     }
 
 
-    async function readItemList(limit, offset) {
+    async function callReadItemList(limit, offset) {
 
         let currentCount = await dao.count();
 
         let items = [];
 
         for (var i=offset; (i < currentCount) || (i - offset == limit); i++) {
-            let resultArray = await dao.readByIndex(i);
+            let resultArray = await dao.readByIndex.call(i);
             items.push(itemMapper(resultArray));
         }
 
@@ -300,6 +300,24 @@ contract('ItemDaoBasic', async (accounts) => {
             inventory: resultArray[4],
             index: resultArray[5]
         }
+    }
+
+
+    function printReceipt(title, result) {
+        receipt = result.receipt;
+
+        // console.log(receipt);
+
+        console.log("************************************************");
+        console.log(`${title}`);
+        console.log("************************************************");
+        console.log(`transactionHash:    ${receipt.transactionHash}` );
+        console.log(`blockHash:          ${receipt.blockHash}` );
+        console.log(`blockNumber:        ${receipt.blockNumber}` );
+        console.log(`gasUsed:            ${receipt.gasUsed}` );
+        console.log(`cumulativeGasUsed:  ${receipt.cumulativeGasUsed}` );
+        console.log("************************************************");
+
     }
 
 
