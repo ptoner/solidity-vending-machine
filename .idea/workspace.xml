@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b1e47b3e-730f-400d-865c-c290e6724dc3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/Data.sol" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/Data.sol" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/TestData.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/TestData.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -57,13 +55,13 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="js" value="10199" />
+          <entry key="js" value="11033" />
           <entry key="sol" value="6309" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JavaScript" value="10199" />
+          <entry key="JavaScript" value="11033" />
           <entry key="Solidity file" value="6309" />
         </counts>
       </usages-collector>
@@ -74,8 +72,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/contracts/Data.sol">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="882">
-              <caret line="186" column="35" lean-forward="true" selection-start-line="186" selection-start-column="35" selection-end-line="186" selection-end-column="35" />
+            <state relative-caret-position="756">
+              <caret line="182" selection-start-line="182" selection-end-line="182" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -92,8 +90,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test/TestData.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="172">
-              <caret line="343" column="41" selection-start-line="343" selection-start-column="41" selection-end-line="343" selection-end-column="41" />
+            <state relative-caret-position="388">
+              <caret line="391" column="33" selection-start-line="391" selection-start-column="33" selection-end-line="391" selection-end-column="33" />
             </state>
           </provider>
         </entry>
@@ -293,7 +291,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538085574741" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538132672649" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../baseball-ml" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -399,12 +397,12 @@
       <workItem from="1537651830901" duration="159000" />
       <workItem from="1537806428238" duration="15935000" />
       <workItem from="1537882743428" duration="42984000" />
-      <workItem from="1538128732962" duration="1808000" />
+      <workItem from="1538128732962" duration="3435000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="133761000" />
+    <option name="totallyTimeSpent" value="135388000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -552,15 +550,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/contracts/Data.sol">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="882">
-          <caret line="186" column="35" lean-forward="true" selection-start-line="186" selection-start-column="35" selection-end-line="186" selection-end-column="35" />
+        <state relative-caret-position="756">
+          <caret line="182" selection-start-line="182" selection-end-line="182" selection-end-column="37" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/TestData.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="172">
-          <caret line="343" column="41" selection-start-line="343" selection-start-column="41" selection-end-line="343" selection-end-column="41" />
+        <state relative-caret-position="388">
+          <caret line="391" column="33" selection-start-line="391" selection-start-column="33" selection-end-line="391" selection-end-column="33" />
         </state>
       </provider>
     </entry>

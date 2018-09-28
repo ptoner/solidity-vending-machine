@@ -347,6 +347,7 @@ contract('ItemDaoBasic', async (accounts) => {
 
             assert.isTrue(exists, "Item doesn't exist locally");
             assert.equal(duplicate, false, "There's a duplicate item");
+            assert.equal(existingItem.index, counter, "The index of this item doesn't match the one it's found at");
 
             counter++;
         }
@@ -354,7 +355,47 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
+    it("Test indexing during remove", async () => {
 
+        dao = await ItemDaoBasic.deployed();
+
+        //Arrange
+
+        //Delete all of the existing records
+        let items = await callReadItemList(Number.MAX_SAFE_INTEGER, 0);
+
+        for (item of items) {
+            await dao.remove(item.id.toNumber());
+        }
+
+        assert.equal(await dao.count(), 0, "Failed to delete all items");
+
+
+        //Insert 3 records
+        let createdId1 = await createPaydayGetCreatedId(dao);
+        let createdId2 = await createPaydayGetCreatedId(dao);
+        let createdId3 = await createPaydayGetCreatedId(dao);
+
+
+        //Act - delete the middle one
+        await dao.remove(createdId2.toNumber());
+
+        //Assert
+        assert.equal(await dao.count(), 2, "Should have 2 items");
+
+        //Get the first one
+        let itemAtIndex0 = await callReadByIndex(0);
+        assert.equal(itemAtIndex0.id.toNumber(), createdId1.toNumber(), "Item has wrong ID");
+        assert.equal(itemAtIndex0.index.toNumber(), 0, "Item has wrong index");
+
+        //Get the second one
+        let itemAtIndex1 = await callReadByIndex(1);
+        assert.equal(itemAtIndex1.id.toNumber(), createdId3.toNumber(), "Item has wrong ID");
+        assert.equal(itemAtIndex1.index.toNumber(), 1, "Item has wrong index");
+
+
+
+    });
 
 
     /*******
@@ -392,6 +433,7 @@ contract('ItemDaoBasic', async (accounts) => {
         return items;
 
     }
+
 
 
     function itemMapper(resultArray) {
