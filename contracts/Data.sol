@@ -1,6 +1,16 @@
 pragma solidity ^0.4.24;
 
 
+interface ItemService {
+
+
+
+}
+
+
+
+
+
 interface ItemDao {
 
     function create(string _title, int _inventory) external returns (uint256 id);
@@ -37,14 +47,6 @@ contract ItemDaoBasic is ItemDao {
     );
 
 
-    event DebugEvent (
-        uint256[] message
-    );
-
-    event DebugNumberEvent (
-        uint256 number
-    );
-
 
     mapping(uint256 => Item) private itemMapping; //ITEMMAPPING IS NOT THE LIST OF ACTIVE THINGS
     uint256[] private itemIndex;    //ITEMINDEX IS THE LIST OF ACTIVE THINGS
@@ -55,8 +57,6 @@ contract ItemDaoBasic is ItemDao {
         require(exists(_id), "This ID does not exist");
 
         Item storage item = itemMapping[_id];
-
-//        emit DebugEvent(item.inventory);
 
         return (item.id, item.owner, item.version, item.title, item.inventory, item.index);
     }
@@ -95,7 +95,6 @@ contract ItemDaoBasic is ItemDao {
         //Put id in index
         itemIndex.push(id);
 
-//        emit DebugEvent(itemIndex);
 
         emit ItemEvent(
             itemMapping[id].id,
@@ -148,11 +147,9 @@ contract ItemDaoBasic is ItemDao {
 
         require(exists(_id));
 
-        //itemMapping[_id].active = false; //WHY DOESN'T THIS WORK
-
-        //Identifying the location of the item - in the itemIndex array - we're trying to remove.
-        //And then move the last item to its location to overwrite it.
-        //Then it's gone from the index. And since read uses the index it will be ignored when reading. Effectively deleted.
+        //1. Find the index of the item we're trying to delete.
+        //2. Move the ID that's in the last spot in the array to where this one is.
+        //3. Delete the last array spot.
 
 
         //Get the index of the one we're trying to delete
@@ -161,10 +158,6 @@ contract ItemDaoBasic is ItemDao {
         //Get the last id in the list.
         uint256 idToMove = itemIndex[itemIndex.length-1];
 
-
-//        emit DebugNumberEvent(indexToDelete);
-//        emit DebugNumberEvent(idToMove);
-//        emit DebugNumberEvent(_id);
 
         if (idToMove != _id) {
 
@@ -179,8 +172,6 @@ contract ItemDaoBasic is ItemDao {
         delete itemIndex[itemIndex.length-1];
         itemIndex.length--;
 
-
-//        emit DebugEvent(itemIndex);
 
         emit ItemEvent(
             itemMapping[_id].id,
@@ -238,30 +229,4 @@ contract ItemDaoBasic is ItemDao {
 
 
 
-
-
 }
-
-
-
-
-//
-//
-//
-//library DaoUtils {
-//    function generateId(uint256[] existingIds) internal view returns (uint256){
-//        return existingIds.length + 1;
-//    }
-//}
-//
-//
-////For unit test
-//contract DaoUtilsProxy {
-//    function generateId(uint256[] existingIds) external view returns (uint256){
-//        return DaoUtils.generateId(existingIds);
-//    }
-//}
-
-
-
-
