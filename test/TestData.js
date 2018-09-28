@@ -255,7 +255,6 @@ contract('ItemDaoBasic', async (accounts) => {
         //Arrange
         let items = await callReadItemList(Number.MAX_SAFE_INTEGER, 0);
 
-
         //Delete them all
         for (item of items) {
             let resultArray = await dao.remove(item.id.toNumber());
@@ -291,6 +290,70 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
+    it("Test count by removing some Items", async () => {
+
+        dao = await ItemDaoBasic.deployed();
+
+        //Arrange - 50 items already exist at this point
+
+        //Get all of them
+        let items = await callReadItemList(Number.MAX_SAFE_INTEGER, 0);
+
+
+        //Choose a few to delete.
+        let indexesToDelete = [0, 1, 4, 10, 15, 20, 25, 30];
+
+        for (index of indexesToDelete) {
+            await dao.remove(items[index].id);
+            items.splice(index, 1);
+        }
+
+
+        //Act
+        let result = await dao.count();
+
+
+
+        //Assert
+        assert.equal(result.toNumber(), items.length, "Count is incorrect");
+
+
+        //Loop through remaining items and make sure they're all here.
+        //They won't be in the same order due to how we delete things in the contract.
+        //Make sure there's no duplicates either.
+        let counter = 0;
+        for (var i=0; i < items.length; i++) {
+
+            var foundIds = [];
+
+            let existingItem = await callReadByIndex(counter);
+
+
+            var exists = false;
+            var duplicate = false;
+
+            //Check if we have a local copy of this item.
+            for (item of items) {
+                if (item.id.toNumber() == existingItem.id.toNumber()) {
+                    exists = true;
+                    break;
+                }
+            }
+
+            //Check if we've already fetched this id.
+            duplicate = foundIds.includes(existingItem.id.toNumber());
+
+            foundIds.push(existingItem.id.toNumber());
+
+            assert.isTrue(exists, "Item doesn't exist locally");
+            assert.equal(duplicate, false, "There's a duplicate item");
+
+            counter++;
+        }
+
+    });
+
+
 
 
 
@@ -306,6 +369,11 @@ contract('ItemDaoBasic', async (accounts) => {
 
     async function callRead(id) {
         let resultArray = await dao.read.call(id);
+        return itemMapper(resultArray);
+    }
+
+    async function callReadByIndex(index) {
+        let resultArray = await dao.readByIndex.call(index);
         return itemMapper(resultArray);
     }
 

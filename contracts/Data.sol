@@ -162,9 +162,9 @@ contract ItemDaoBasic is ItemDao {
         uint256 idToMove = itemIndex[itemIndex.length-1];
 
 
-        emit DebugNumberEvent(indexToDelete);
-        emit DebugNumberEvent(idToMove);
-        emit DebugNumberEvent(_id);
+//        emit DebugNumberEvent(indexToDelete);
+//        emit DebugNumberEvent(idToMove);
+//        emit DebugNumberEvent(_id);
 
         if (idToMove != _id) {
 

@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b1e47b3e-730f-400d-865c-c290e6724dc3" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contracts/Data.sol" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/Data.sol" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/TestData.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/TestData.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -32,14 +34,14 @@
           <entry key="project.open.time.0" value="2" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.5" value="1" />
-          <entry key="project.open.time.6" value="4" />
+          <entry key="project.open.time.6" value="5" />
           <entry key="project.open.time.8" value="1" />
-          <entry key="project.opened" value="9" />
+          <entry key="project.opened" value="10" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="js" value="8" />
+          <entry key="js" value="9" />
           <entry key="png" value="2" />
           <entry key="sol" value="6" />
           <entry key="ts" value="1" />
@@ -48,20 +50,20 @@
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="Image" value="2" />
-          <entry key="JavaScript" value="8" />
+          <entry key="JavaScript" value="9" />
           <entry key="Solidity file" value="6" />
           <entry key="TypeScript" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="js" value="8559" />
+          <entry key="js" value="10199" />
           <entry key="sol" value="6309" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JavaScript" value="8559" />
+          <entry key="JavaScript" value="10199" />
           <entry key="Solidity file" value="6309" />
         </counts>
       </usages-collector>
@@ -72,8 +74,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/contracts/Data.sol">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="183" lean-forward="true" selection-start-line="183" selection-end-line="183" />
+            <state relative-caret-position="882">
+              <caret line="186" column="35" lean-forward="true" selection-start-line="186" selection-start-column="35" selection-end-line="186" selection-end-column="35" />
             </state>
           </provider>
         </entry>
@@ -90,17 +92,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test/TestData.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="501">
-              <caret line="293" lean-forward="true" selection-start-line="293" selection-end-line="293" />
-              <folding>
-                <element signature="e#146#802#0" />
-                <element signature="e#857#1378#0" />
-                <element signature="e#1443#2014#0" />
-                <element signature="e#2058#2814#0" />
-                <element signature="e#2872#3269#0" />
-                <element signature="e#4663#5937#0" />
-                <element signature="e#7443#7746#0" />
-              </folding>
+            <state relative-caret-position="172">
+              <caret line="343" column="41" selection-start-line="343" selection-start-column="41" selection-end-line="343" selection-end-column="41" />
             </state>
           </provider>
         </entry>
@@ -272,7 +265,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -285,17 +278,22 @@
               <item name="solidity-vending-machine" type="462c0819:PsiDirectoryNode" />
               <item name="contracts" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="solidity-vending-machine" type="b2602c69:ProjectViewProjectNode" />
+              <item name="solidity-vending-machine" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538080538910" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538085574741" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../baseball-ml" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -400,12 +398,13 @@
       <workItem from="1537593796705" duration="1031000" />
       <workItem from="1537651830901" duration="159000" />
       <workItem from="1537806428238" duration="15935000" />
-      <workItem from="1537882743428" duration="39979000" />
+      <workItem from="1537882743428" duration="42984000" />
+      <workItem from="1538128732962" duration="1808000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="128948000" />
+    <option name="totallyTimeSpent" value="133761000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -435,7 +434,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32864866" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.4994664" weight="0.45588234" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.4994664" visible="true" weight="0.45483193" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50053364" side_tool="true" weight="0.45588234" />
       <window_info anchor="bottom" id="Version Control" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -531,13 +530,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/contracts/DaoUtils.sol" />
     <entry file="file://$PROJECT_DIR$/test/TestDaoUtils.js" />
-    <entry file="file://$PROJECT_DIR$/migrations/2_deploy_contracts.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="7" column="2" selection-start-line="7" selection-start-column="2" selection-end-line="7" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/box-img-lg.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -551,26 +543,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/migrations/2_deploy_contracts.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="2" selection-start-line="7" selection-start-column="2" selection-end-line="7" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/contracts/Data.sol">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="183" lean-forward="true" selection-start-line="183" selection-end-line="183" />
+        <state relative-caret-position="882">
+          <caret line="186" column="35" lean-forward="true" selection-start-line="186" selection-start-column="35" selection-end-line="186" selection-end-column="35" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/TestData.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="501">
-          <caret line="293" lean-forward="true" selection-start-line="293" selection-end-line="293" />
-          <folding>
-            <element signature="e#146#802#0" />
-            <element signature="e#857#1378#0" />
-            <element signature="e#1443#2014#0" />
-            <element signature="e#2058#2814#0" />
-            <element signature="e#2872#3269#0" />
-            <element signature="e#4663#5937#0" />
-            <element signature="e#7443#7746#0" />
-          </folding>
+        <state relative-caret-position="172">
+          <caret line="343" column="41" selection-start-line="343" selection-start-column="41" selection-end-line="343" selection-end-column="41" />
         </state>
       </provider>
     </entry>
