@@ -1,16 +1,6 @@
 pragma solidity ^0.4.24;
 
 
-interface ItemService {
-
-
-
-}
-
-
-
-
-
 interface ItemDao {
 
     function create(string _title, int _inventory) external returns (uint256 id);
@@ -24,7 +14,40 @@ interface ItemDao {
 }
 
 
+
+interface ItemService {
+
+}
+
+contract ItemServiceBasic is ItemService {
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
 contract ItemDaoBasic is ItemDao {
+
+    //The mapping where we actually store the item data on the blockchain
+    mapping(uint256 => Item) private itemMapping;
+
+    //An unordered index of the items that are active.
+    uint256[] private itemIndex;
+
+    //Don't want to reuse ids so just keep counting forever.
+    uint256 private nextId;
+
+    //This DAO should only be callable by the owning service.
+    address ownerContract;
+
 
     struct Item {
         uint256 id;
@@ -48,9 +71,6 @@ contract ItemDaoBasic is ItemDao {
 
 
 
-    mapping(uint256 => Item) private itemMapping; //ITEMMAPPING IS NOT THE LIST OF ACTIVE THINGS
-    uint256[] private itemIndex;    //ITEMINDEX IS THE LIST OF ACTIVE THINGS
-    uint256 private itemCounter;
 
     function read(uint256 _id) external view returns (uint256 id, address owner, uint version, string title, int inventory, uint256 index) {
 
@@ -63,9 +83,9 @@ contract ItemDaoBasic is ItemDao {
 
     function create(string _title, int _inventory) external returns (uint256) {
 
-        itemCounter++;
+        nextId++;
 
-        uint256 id = itemCounter;
+        uint256 id = nextId;
 
         //Validation
         require(exists(id) == false);
@@ -84,8 +104,8 @@ contract ItemDaoBasic is ItemDao {
 
 
         //Make sure appropriate values get set.
-        require(item.id != 0);
-        require(item.owner != 0);
+        require(item.id != 0, "Item ID is emtpy");
+        require(item.owner != 0, "Item owner is emtpy");
 
 
         //Put item in mapping
@@ -139,11 +159,9 @@ contract ItemDaoBasic is ItemDao {
 
     }
 
-
-
-
-    //https://medium.com/@robhitchens/solidity-crud-part-2-ed8d8b4f74ec
     function remove(uint256 _id) external {
+
+        //https://medium.com/@robhitchens/solidity-crud-part-2-ed8d8b4f74ec
 
         require(exists(_id));
 
@@ -185,11 +203,9 @@ contract ItemDaoBasic is ItemDao {
 
     }
 
-
     function count() external constant returns (uint256 theCount) {
         return itemIndex.length;
     }
-
 
     function readByIndex(uint256 _index) external constant returns (uint256 id, address owner, uint version, string title, int inventory, uint256 index) {
 
@@ -203,7 +219,6 @@ contract ItemDaoBasic is ItemDao {
 
         return (item.id, item.owner, item.version, item.title, item.inventory, item.index);
     }
-
 
     function exists(uint256 _id) private view returns (bool) {
 

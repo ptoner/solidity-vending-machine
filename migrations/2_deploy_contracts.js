@@ -1,8 +1,8 @@
-var daoImpl = artifacts.require("ItemDaoBasic");
-// var daoUtilsProxy = artifacts.require("DaoUtilsProxy"); //For unit test
+var ItemDaoBasic = artifacts.require("ItemDaoBasic");
+var ItemServiceBasic = artifacts.require("ItemServiceBasic");
 
 
 module.exports = function(deployer) {
-  deployer.deploy(daoImpl);
-  // deployer.deploy(daoUtilsProxy);
+  deployer.deploy(ItemDaoBasic);
+  deployer.deploy(ItemServiceBasic);
 };

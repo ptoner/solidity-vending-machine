@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b1e47b3e-730f-400d-865c-c290e6724dc3" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/contracts/ItemDao.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/contracts/ItemDao.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/contracts/ItemDaoBasic.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/contracts/ItemDaoBasic.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/contracts/Data.sol" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/Data.sol" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/2_deploy_contracts.js" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/2_deploy_contracts.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -55,14 +59,14 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="js" value="11033" />
-          <entry key="sol" value="6559" />
+          <entry key="js" value="11110" />
+          <entry key="sol" value="7322" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JavaScript" value="11033" />
-          <entry key="Solidity file" value="6559" />
+          <entry key="JavaScript" value="11110" />
+          <entry key="Solidity file" value="7322" />
         </counts>
       </usages-collector>
     </session>
@@ -72,8 +76,16 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/contracts/Data.sol">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="746">
-              <caret line="228" column="4" selection-start-line="228" selection-start-column="4" selection-end-line="228" selection-end-column="4" />
+            <state relative-caret-position="378">
+              <caret line="21" column="40" selection-start-line="21" selection-start-column="40" selection-end-line="21" selection-end-column="40" />
+              <folding>
+                <element signature="n#!!block;n#read#0;n#ItemDaoBasic#0" />
+                <element signature="n#!!block;n#update#0;n#ItemDaoBasic#0" />
+                <element signature="n#!!block;n#remove#0;n#ItemDaoBasic#0" />
+                <element signature="n#!!block;n#count#0;n#ItemDaoBasic#0" />
+                <element signature="n#!!block;n#readByIndex#0;n#ItemDaoBasic#0" />
+                <element signature="n#!!block;n#exists#0;n#ItemDaoBasic#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -81,8 +93,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/migrations/2_deploy_contracts.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="126">
-              <caret line="7" column="2" selection-start-line="7" selection-start-column="2" selection-end-line="7" selection-end-column="2" />
+            <state relative-caret-position="36">
+              <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
             </state>
           </provider>
         </entry>
@@ -90,8 +102,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/TestData.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="334">
-              <caret line="391" column="33" selection-start-line="391" selection-start-column="33" selection-end-line="391" selection-end-column="33" />
+            <state relative-caret-position="144">
+              <caret line="8" column="25" lean-forward="true" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -137,9 +149,9 @@
         <option value="$PROJECT_DIR$/contracts/DaoUtils.sol" />
         <option value="$PROJECT_DIR$/test/TestUtils.sol" />
         <option value="$PROJECT_DIR$/test/TestUtils.js" />
-        <option value="$PROJECT_DIR$/migrations/2_deploy_contracts.js" />
         <option value="$PROJECT_DIR$/test/TestDaoUtils.js" />
         <option value="$PROJECT_DIR$/test/TestData.js" />
+        <option value="$PROJECT_DIR$/migrations/2_deploy_contracts.js" />
         <option value="$PROJECT_DIR$/contracts/Data.sol" />
       </list>
     </option>
@@ -296,7 +308,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538133563522" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538136040862" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../baseball-ml" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -402,12 +414,12 @@
       <workItem from="1537651830901" duration="159000" />
       <workItem from="1537806428238" duration="15935000" />
       <workItem from="1537882743428" duration="42984000" />
-      <workItem from="1538128732962" duration="4292000" />
+      <workItem from="1538128732962" duration="6791000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="136245000" />
+    <option name="totallyTimeSpent" value="138744000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -422,7 +434,7 @@
     <frame x="1920" y="-2" width="1920" height="1082" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22251868" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.22251868" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -539,20 +551,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/migrations/2_deploy_contracts.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="7" column="2" selection-start-line="7" selection-start-column="2" selection-end-line="7" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/TestData.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="334">
-          <caret line="391" column="33" selection-start-line="391" selection-start-column="33" selection-end-line="391" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/contracts/Migrations.sol">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="378">
@@ -560,10 +558,32 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/test/TestData.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="8" column="25" lean-forward="true" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/migrations/2_deploy_contracts.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/contracts/Data.sol">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="746">
-          <caret line="228" column="4" selection-start-line="228" selection-start-column="4" selection-end-line="228" selection-end-column="4" />
+        <state relative-caret-position="378">
+          <caret line="21" column="40" selection-start-line="21" selection-start-column="40" selection-end-line="21" selection-end-column="40" />
+          <folding>
+            <element signature="n#!!block;n#read#0;n#ItemDaoBasic#0" />
+            <element signature="n#!!block;n#update#0;n#ItemDaoBasic#0" />
+            <element signature="n#!!block;n#remove#0;n#ItemDaoBasic#0" />
+            <element signature="n#!!block;n#count#0;n#ItemDaoBasic#0" />
+            <element signature="n#!!block;n#readByIndex#0;n#ItemDaoBasic#0" />
+            <element signature="n#!!block;n#exists#0;n#ItemDaoBasic#0" />
+          </folding>
         </state>
       </provider>
     </entry>
