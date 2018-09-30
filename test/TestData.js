@@ -28,6 +28,8 @@ contract('ItemDaoBasic', async (accounts) => {
         assert.isTrue(log.args.inventory == 5, "Should have 5 in stock");
         assert.isTrue(log.args.owner == accounts[0], "Owner should be this contract");
 
+        assert.isBelow(result.receipt.gasUsed, 197126, "Create used more than 197125 gas"); //Arbitrary value as a starting point
+
 
         //Also verify with a read.
         let item = await callRead(log.args.id.toNumber());
@@ -170,6 +172,8 @@ contract('ItemDaoBasic', async (accounts) => {
         assert.equal(log.args.owner,accounts[0], "Owner should be this contract");
         assert.equal(log.args.eventType, "UPDATE", "Type should be UPDATE");
 
+        assert.isBelow(result.receipt.gasUsed, 52973, "Create used more than 52972 gas"); //Arbitrary value as a starting point
+
 
         //Try to read it and make sure the values stuck.
         let item = await callRead(createdId.toNumber());
@@ -213,6 +217,8 @@ contract('ItemDaoBasic', async (accounts) => {
         assert.equal(log.args.index, 3, "Active should be false");
         assert.equal(log.args.owner, accounts[0], "Owner should be this contract");
         assert.equal(log.args.eventType, "REMOVE", "Type should be REMOVE");
+
+        assert.isBelow(result.receipt.gasUsed, 31504, "Create used more than 31504 gas"); //Arbitrary value as a starting point
 
 
         //Do a read and make sure it's gone

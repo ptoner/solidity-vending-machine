@@ -3,10 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="b1e47b3e-730f-400d-865c-c290e6724dc3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/contracts/ItemDao.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/contracts/ItemDao.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/contracts/ItemDaoBasic.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/contracts/ItemDaoBasic.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/contracts/Data.sol" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/Data.sol" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/2_deploy_contracts.js" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/2_deploy_contracts.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/TestData.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/TestData.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -35,10 +33,11 @@
           <entry key="project.closed" value="5" />
           <entry key="project.open.time.0" value="2" />
           <entry key="project.open.time.1" value="1" />
-          <entry key="project.open.time.5" value="1" />
+          <entry key="project.open.time.5" value="2" />
           <entry key="project.open.time.6" value="5" />
+          <entry key="project.open.time.7" value="1" />
           <entry key="project.open.time.8" value="1" />
-          <entry key="project.opened" value="10" />
+          <entry key="project.opened" value="12" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -59,32 +58,28 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="js" value="11110" />
-          <entry key="sol" value="7322" />
+          <entry key="js" value="11308" />
+          <entry key="sol" value="7345" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JavaScript" value="11110" />
-          <entry key="Solidity file" value="7322" />
+          <entry key="JavaScript" value="11308" />
+          <entry key="Solidity file" value="7345" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/contracts/Data.sol">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="21" column="40" selection-start-line="21" selection-start-column="40" selection-end-line="21" selection-end-column="40" />
+            <state relative-caret-position="2857">
+              <caret line="188" column="9" lean-forward="true" selection-start-line="188" selection-start-column="9" selection-end-line="188" selection-end-column="9" />
               <folding>
-                <element signature="n#!!block;n#read#0;n#ItemDaoBasic#0" />
-                <element signature="n#!!block;n#update#0;n#ItemDaoBasic#0" />
-                <element signature="n#!!block;n#remove#0;n#ItemDaoBasic#0" />
                 <element signature="n#!!block;n#count#0;n#ItemDaoBasic#0" />
                 <element signature="n#!!block;n#readByIndex#0;n#ItemDaoBasic#0" />
-                <element signature="n#!!block;n#exists#0;n#ItemDaoBasic#0" />
               </folding>
             </state>
           </provider>
@@ -94,16 +89,16 @@
         <entry file="file://$PROJECT_DIR$/migrations/2_deploy_contracts.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="36">
-              <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+              <caret line="2" selection-start-line="2" selection-end-line="2" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test/TestData.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="8" column="25" lean-forward="true" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
+            <state relative-caret-position="294">
+              <caret line="221" lean-forward="true" selection-start-line="221" selection-end-line="221" />
             </state>
           </provider>
         </entry>
@@ -150,9 +145,9 @@
         <option value="$PROJECT_DIR$/test/TestUtils.sol" />
         <option value="$PROJECT_DIR$/test/TestUtils.js" />
         <option value="$PROJECT_DIR$/test/TestDaoUtils.js" />
-        <option value="$PROJECT_DIR$/test/TestData.js" />
         <option value="$PROJECT_DIR$/migrations/2_deploy_contracts.js" />
         <option value="$PROJECT_DIR$/contracts/Data.sol" />
+        <option value="$PROJECT_DIR$/test/TestData.js" />
       </list>
     </option>
   </component>
@@ -264,10 +259,9 @@
     </packageJsonPaths>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1920" />
-    <option name="y" value="-2" />
+    <option name="y" value="25" />
     <option name="width" value="1920" />
-    <option name="height" value="1082" />
+    <option name="height" value="1055" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -308,7 +302,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538136040862" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538232296387" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../baseball-ml" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -414,12 +408,14 @@
       <workItem from="1537651830901" duration="159000" />
       <workItem from="1537806428238" duration="15935000" />
       <workItem from="1537882743428" duration="42984000" />
-      <workItem from="1538128732962" duration="6791000" />
+      <workItem from="1538128732962" duration="7589000" />
+      <workItem from="1538224284520" duration="1790000" />
+      <workItem from="1538308195330" duration="1191000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="138744000" />
+    <option name="totallyTimeSpent" value="142523000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -431,7 +427,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1920" y="-2" width="1920" height="1082" extended-state="6" />
+    <frame x="0" y="25" width="1920" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.22251868" />
@@ -449,7 +445,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32864866" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.4994664" weight="0.45483193" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.4994664" visible="true" weight="0.45405406" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50053364" side_tool="true" weight="0.45588234" />
       <window_info anchor="bottom" id="Version Control" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -558,32 +554,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/TestData.js">
+    <entry file="file://$PROJECT_DIR$/contracts/Data.sol">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="8" column="25" lean-forward="true" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
+        <state relative-caret-position="2857">
+          <caret line="188" column="9" lean-forward="true" selection-start-line="188" selection-start-column="9" selection-end-line="188" selection-end-column="9" />
+          <folding>
+            <element signature="n#!!block;n#count#0;n#ItemDaoBasic#0" />
+            <element signature="n#!!block;n#readByIndex#0;n#ItemDaoBasic#0" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/migrations/2_deploy_contracts.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="36">
-          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+          <caret line="2" selection-start-line="2" selection-end-line="2" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/contracts/Data.sol">
+    <entry file="file://$PROJECT_DIR$/test/TestData.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="21" column="40" selection-start-line="21" selection-start-column="40" selection-end-line="21" selection-end-column="40" />
-          <folding>
-            <element signature="n#!!block;n#read#0;n#ItemDaoBasic#0" />
-            <element signature="n#!!block;n#update#0;n#ItemDaoBasic#0" />
-            <element signature="n#!!block;n#remove#0;n#ItemDaoBasic#0" />
-            <element signature="n#!!block;n#count#0;n#ItemDaoBasic#0" />
-            <element signature="n#!!block;n#readByIndex#0;n#ItemDaoBasic#0" />
-            <element signature="n#!!block;n#exists#0;n#ItemDaoBasic#0" />
-          </folding>
+        <state relative-caret-position="294">
+          <caret line="221" lean-forward="true" selection-start-line="221" selection-end-line="221" />
         </state>
       </provider>
     </entry>

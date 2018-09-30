@@ -21,6 +21,8 @@ interface ItemService {
 
 contract ItemServiceBasic is ItemService {
 
+    
+
 }
 
 
@@ -74,7 +76,7 @@ contract ItemDaoBasic is ItemDao {
 
     function read(uint256 _id) external view returns (uint256 id, address owner, uint version, string title, int inventory, uint256 index) {
 
-        require(exists(_id), "This ID does not exist");
+        require(_exists(_id), "This ID does not exist");
 
         Item storage item = itemMapping[_id];
 
@@ -88,7 +90,7 @@ contract ItemDaoBasic is ItemDao {
         uint256 id = nextId;
 
         //Validation
-        require(exists(id) == false);
+        require(_exists(id) == false);
         require(_inventory > 0, "_inventory must be greater than or equal to 0");
         require(bytes(_title).length > 0, "_title is required ");
 
@@ -132,7 +134,7 @@ contract ItemDaoBasic is ItemDao {
 
     function update(uint256 _id, string _title, int _inventory) external {
 
-        require(exists(_id));
+        require(_exists(_id));
 
 
         if (keccak256(bytes(itemMapping[_id].title)) != keccak256(bytes(_title))) {
@@ -163,7 +165,7 @@ contract ItemDaoBasic is ItemDao {
 
         //https://medium.com/@robhitchens/solidity-crud-part-2-ed8d8b4f74ec
 
-        require(exists(_id));
+        require(_exists(_id));
 
         //1. Find the index of the item we're trying to delete.
         //2. Move the ID that's in the last spot in the array to where this one is.
@@ -220,7 +222,7 @@ contract ItemDaoBasic is ItemDao {
         return (item.id, item.owner, item.version, item.title, item.inventory, item.index);
     }
 
-    function exists(uint256 _id) private view returns (bool) {
+    function _exists(uint256 _id) private view returns (bool) {
 
         if (itemIndex.length == 0) return false;
 
