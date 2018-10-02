@@ -1,6 +1,10 @@
 var ItemDaoBasic = artifacts.require("ItemDaoBasic");
 
 
+
+
+
+
 contract('ItemDaoBasic', async (accounts) => {
 
     let dao;
@@ -9,9 +13,15 @@ contract('ItemDaoBasic', async (accounts) => {
     let createdCount = 0;
 
 
-    it("Test create Item", async () => {
+    var ItemService = require('./item-service.js');
+    var itemService = new ItemService();
 
+    beforeEach('setup contract for each test', async () => {
         dao = await ItemDaoBasic.deployed();
+        itemService.dao = dao;
+    });
+
+    it("Test create Item", async () => {
 
         //Arrange and act
         let result = await createPayday(dao);
@@ -32,7 +42,7 @@ contract('ItemDaoBasic', async (accounts) => {
 
 
         //Also verify with a read.
-        let item = await callRead(log.args.id.toNumber());
+        let item = await itemService.callRead(log.args.id.toNumber());
 
         assert.equal(item.id.toNumber(), log.args.id.toNumber(), "Ids need to match");
         assert.equal(item.index, 0, "Index should be 1");
@@ -47,8 +57,6 @@ contract('ItemDaoBasic', async (accounts) => {
 
 
     it("Test create Item: no title", async () => {
-
-        dao = await ItemDaoBasic.deployed();
 
         //Arrange
         var title="";
@@ -71,8 +79,6 @@ contract('ItemDaoBasic', async (accounts) => {
 
     it("Test create Item: negative inventory", async () => {
 
-        dao = await ItemDaoBasic.deployed();
-
         //Arrange
         var title="Payday";
         var inventory = -1;
@@ -94,13 +100,11 @@ contract('ItemDaoBasic', async (accounts) => {
 
     it("Test read Item", async () => {
 
-        dao = await ItemDaoBasic.deployed();
-
         //Arrange
         let createdId = await createPaydayGetCreatedId(dao);
 
         //Act
-        let item = await callRead(createdId);
+        let item = await itemService.callRead(createdId);
 
         assert.equal(item.id.toNumber(), createdId.toNumber(), "Ids need to match");
         assert.equal(item.index, 1, "Index should be 1");
@@ -115,8 +119,6 @@ contract('ItemDaoBasic', async (accounts) => {
 
 
     it("Test read Item: non-existent item ID", async () => {
-
-        dao = await ItemDaoBasic.deployed();
 
         let error;
 
@@ -135,8 +137,6 @@ contract('ItemDaoBasic', async (accounts) => {
 
     it("Test read Item: non-existent negative ID", async () => {
 
-        dao = await ItemDaoBasic.deployed();
-
         //Act
         try {
             let resultArray = await dao.read.call(-42);
@@ -151,8 +151,6 @@ contract('ItemDaoBasic', async (accounts) => {
 
 
     it("Test update Item", async () => {
-
-        dao = await ItemDaoBasic.deployed();
 
         //Arrange
         let createdId = await createPaydayGetCreatedId(dao);
@@ -176,7 +174,7 @@ contract('ItemDaoBasic', async (accounts) => {
 
 
         //Try to read it and make sure the values stuck.
-        let item = await callRead(createdId.toNumber());
+        let item = await itemService.callRead(createdId.toNumber());
 
 
         assert.equal(item.id, createdId.toNumber(), "IDs do not match");
@@ -194,8 +192,6 @@ contract('ItemDaoBasic', async (accounts) => {
 
 
     it("Test remove Item", async () => {
-
-        dao = await ItemDaoBasic.deployed();
 
         //Arrange
         let createdId = await createPaydayGetCreatedId(dao);
@@ -240,8 +236,6 @@ contract('ItemDaoBasic', async (accounts) => {
 
     it("Test count Items", async () => {
 
-        dao = await ItemDaoBasic.deployed();
-
         //Arrange
 
         //Act
@@ -256,10 +250,8 @@ contract('ItemDaoBasic', async (accounts) => {
 
     it("Delete all Items then count", async () => {
 
-        dao = await ItemDaoBasic.deployed();
-
         //Arrange
-        let items = await callReadItemList(Number.MAX_SAFE_INTEGER, 0);
+        let items = await itemService.callReadItemList(Number.MAX_SAFE_INTEGER, 0);
 
         //Delete them all
         for (item of items) {
@@ -276,10 +268,7 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
-
     it("Add 50 records then count", async () => {
-
-        dao = await ItemDaoBasic.deployed();
 
         //Arrange
         for (var i=0; i < 50; i++) {
@@ -298,12 +287,10 @@ contract('ItemDaoBasic', async (accounts) => {
 
     it("Test count by removing some Items", async () => {
 
-        dao = await ItemDaoBasic.deployed();
-
         //Arrange - 50 items already exist at this point
 
         //Get all of them
-        let items = await callReadItemList(Number.MAX_SAFE_INTEGER, 0);
+        let items = await itemService.callReadItemList(Number.MAX_SAFE_INTEGER, 0);
 
 
         //Choose a few to delete.
@@ -332,7 +319,7 @@ contract('ItemDaoBasic', async (accounts) => {
 
             var foundIds = [];
 
-            let existingItem = await callReadByIndex(counter);
+            let existingItem = await itemService.callReadByIndex(counter);
 
 
             var exists = false;
@@ -363,12 +350,11 @@ contract('ItemDaoBasic', async (accounts) => {
 
     it("Test indexing during remove", async () => {
 
-        dao = await ItemDaoBasic.deployed();
 
         //Arrange
 
         //Delete all of the existing records
-        let items = await callReadItemList(Number.MAX_SAFE_INTEGER, 0);
+        let items = await itemService.callReadItemList(Number.MAX_SAFE_INTEGER, 0);
 
         for (item of items) {
             await dao.remove(item.id.toNumber());
@@ -390,12 +376,12 @@ contract('ItemDaoBasic', async (accounts) => {
         assert.equal(await dao.count(), 2, "Should have 2 items");
 
         //Get the first one
-        let itemAtIndex0 = await callReadByIndex(0);
+        let itemAtIndex0 = await itemService.callReadByIndex(0);
         assert.equal(itemAtIndex0.id.toNumber(), createdId1.toNumber(), "Item has wrong ID");
         assert.equal(itemAtIndex0.index.toNumber(), 0, "Item has wrong index");
 
         //Get the second one
-        let itemAtIndex1 = await callReadByIndex(1);
+        let itemAtIndex1 = await itemService.callReadByIndex(1);
         assert.equal(itemAtIndex1.id.toNumber(), createdId3.toNumber(), "Item has wrong ID");
         assert.equal(itemAtIndex1.index.toNumber(), 1, "Item has wrong index");
 
@@ -404,54 +390,9 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
-    /*******
-     *
-     *
-     * HELPER STUFF
-     *
-     *
-     *
-     */
-
-
-    async function callRead(id) {
-        let resultArray = await dao.read.call(id);
-        return itemMapper(resultArray);
-    }
-
-    async function callReadByIndex(index) {
-        let resultArray = await dao.readByIndex.call(index);
-        return itemMapper(resultArray);
-    }
-
-
-    async function callReadItemList(limit, offset) {
-
-        let currentCount = await dao.count();
-
-        let items = [];
-
-        for (var i=offset; (i < currentCount) || (i - offset == limit); i++) {
-            let resultArray = await dao.readByIndex.call(i);
-            items.push(itemMapper(resultArray));
-        }
-
-        return items;
-
-    }
 
 
 
-    function itemMapper(resultArray) {
-        return {
-            id: resultArray[0],
-            owner: resultArray[1],
-            version: resultArray[2],
-            title: resultArray[3],
-            inventory: resultArray[4],
-            index: resultArray[5]
-        }
-    }
 
 
     function printReceipt(title, result) {
