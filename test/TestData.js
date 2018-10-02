@@ -1,5 +1,8 @@
+//Contract dependencies
 var ItemDaoBasic = artifacts.require("ItemDaoBasic");
 
+//Javascript dependencies
+var ItemService = require('./item-service.js');
 
 
 
@@ -7,24 +10,23 @@ var ItemDaoBasic = artifacts.require("ItemDaoBasic");
 
 contract('ItemDaoBasic', async (accounts) => {
 
-    let dao;
-
     //Keep track of how many items we inserted so that we can run counts.
     let createdCount = 0;
 
-
-    var ItemService = require('./item-service.js');
     var itemService = new ItemService();
 
-    beforeEach('setup contract for each test', async () => {
-        dao = await ItemDaoBasic.deployed();
-        itemService.dao = dao;
+
+
+    beforeEach('Setup each test', async () => {
+        itemService.dao = await ItemDaoBasic.deployed();
     });
+
+
 
     it("Test create Item", async () => {
 
         //Arrange and act
-        let result = await createPayday(dao);
+        let result = await createPayday();
 
         // printReceipt("Create Payday", result);
 
@@ -66,7 +68,7 @@ contract('ItemDaoBasic', async (accounts) => {
 
         //Act
         try {
-            let result = await dao.create(title, inventory);
+            let result = await itemService.sendCreate(title, inventory);
         } catch(ex) {
             error = ex;
         }
@@ -87,7 +89,7 @@ contract('ItemDaoBasic', async (accounts) => {
 
         //Act
         try {
-            let result = await dao.create(title, inventory);
+            let result = await itemService.sendCreate(title, inventory);
         } catch(ex) {
             error = ex;
         }
@@ -101,7 +103,7 @@ contract('ItemDaoBasic', async (accounts) => {
     it("Test read Item", async () => {
 
         //Arrange
-        let createdId = await createPaydayGetCreatedId(dao);
+        let createdId = await createPaydayGetCreatedId();
 
         //Act
         let item = await itemService.callRead(createdId);
@@ -124,7 +126,7 @@ contract('ItemDaoBasic', async (accounts) => {
 
         //Act
         try {
-            let resultArray = await dao.read.call(42);
+            let resultArray = await itemService.callRead(42);
         } catch(ex) {
             error = ex;
         }
@@ -139,7 +141,7 @@ contract('ItemDaoBasic', async (accounts) => {
 
         //Act
         try {
-            let resultArray = await dao.read.call(-42);
+            let resultArray = await await itemService.callRead(-42);
         } catch(ex) {
             error = ex;
         }
@@ -153,10 +155,10 @@ contract('ItemDaoBasic', async (accounts) => {
     it("Test update Item", async () => {
 
         //Arrange
-        let createdId = await createPaydayGetCreatedId(dao);
+        let createdId = await createPaydayGetCreatedId();
 
         //Act
-        let result = await dao.update(createdId, "Not Payday", 4);
+        let result = await itemService.sendUpdate(createdId, "Not Payday", 4);
 
 
         //Assert
@@ -194,11 +196,11 @@ contract('ItemDaoBasic', async (accounts) => {
     it("Test remove Item", async () => {
 
         //Arrange
-        let createdId = await createPaydayGetCreatedId(dao);
+        let createdId = await createPaydayGetCreatedId();
 
 
         //Act
-        let result = await dao.remove(createdId);
+        let result = await itemService.sendRemove(createdId);
 
 
         //Assert
@@ -222,7 +224,7 @@ contract('ItemDaoBasic', async (accounts) => {
 
         //Act
         try {
-            let resultArray = await dao.read(createdId);
+            let resultArray = await itemService.callRead(createdId);
         } catch(ex) {
             error = ex;
         }
@@ -239,7 +241,7 @@ contract('ItemDaoBasic', async (accounts) => {
         //Arrange
 
         //Act
-        let result = await dao.count();
+        let result = await itemService.callCount();
 
 
         //Assert
@@ -255,11 +257,11 @@ contract('ItemDaoBasic', async (accounts) => {
 
         //Delete them all
         for (item of items) {
-            let resultArray = await dao.remove(item.id.toNumber());
+            let resultArray = await itemService.sendRemove(item.id.toNumber());
         }
 
         //Act
-        let result = await dao.count();
+        let result = await itemService.callCount();
 
 
         //Assert
@@ -272,11 +274,11 @@ contract('ItemDaoBasic', async (accounts) => {
 
         //Arrange
         for (var i=0; i < 50; i++) {
-            await createPaydayGetCreatedId(dao);
+            await createPaydayGetCreatedId();
         }
 
         //Act
-        let result = await dao.count();
+        let result = await itemService.callCount()
 
 
         //Assert
@@ -297,13 +299,13 @@ contract('ItemDaoBasic', async (accounts) => {
         let indexesToDelete = [0, 1, 4, 10, 15, 20, 25, 30];
 
         for (index of indexesToDelete) {
-            await dao.remove(items[index].id);
+            await itemService.sendRemove(items[index].id);
             items.splice(index, 1);
         }
 
 
         //Act
-        let result = await dao.count();
+        let result = await itemService.callCount();
 
 
 
@@ -357,23 +359,23 @@ contract('ItemDaoBasic', async (accounts) => {
         let items = await itemService.callReadItemList(Number.MAX_SAFE_INTEGER, 0);
 
         for (item of items) {
-            await dao.remove(item.id.toNumber());
+            await itemService.sendRemove(item.id.toNumber());
         }
 
-        assert.equal(await dao.count(), 0, "Failed to delete all items");
+        assert.equal(await itemService.callCount(), 0, "Failed to delete all items");
 
 
         //Insert 3 records
-        let createdId1 = await createPaydayGetCreatedId(dao);
-        let createdId2 = await createPaydayGetCreatedId(dao);
-        let createdId3 = await createPaydayGetCreatedId(dao);
+        let createdId1 = await createPaydayGetCreatedId();
+        let createdId2 = await createPaydayGetCreatedId();
+        let createdId3 = await createPaydayGetCreatedId();
 
 
         //Act - delete the middle one
-        await dao.remove(createdId2.toNumber());
+        await itemService.sendRemove(createdId2.toNumber());
 
         //Assert
-        assert.equal(await dao.count(), 2, "Should have 2 items");
+        assert.equal(await itemService.callCount(), 2, "Should have 2 items");
 
         //Get the first one
         let itemAtIndex0 = await itemService.callReadByIndex(0);
@@ -415,18 +417,18 @@ contract('ItemDaoBasic', async (accounts) => {
 
 
 
-    function createPayday(dao) {
+    function createPayday() {
 
-        var owner = dao;
+        var owner = itemService.dao;
         var title = "Payday";
         var inventory = 5;
 
-        return dao.create(title, inventory);
+        return itemService.sendCreate(title, inventory);
     }
 
 
-    async function createPaydayGetCreatedId(dao) {
-        let result = await createPayday(dao);
+    async function createPaydayGetCreatedId() {
+        let result = await createPayday();
 
         let log = getLogByEventName("ItemEvent", result.logs);
         let createdId = log.args.id;

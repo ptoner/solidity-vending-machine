@@ -6,6 +6,11 @@ ItemService.prototype = {
 
     constructor: ItemService,
 
+
+    /**
+     * CALLS
+     */
+
     callRead: async function(id) {
 
         var self = this;
@@ -38,6 +43,35 @@ ItemService.prototype = {
         return items;
 
     },
+
+    callCount: async function() {
+        return this.dao.count();
+    },
+
+
+
+    /**
+     * SEND
+     */
+    sendCreate: async function(title, inventory) {
+        return this.dao.create(title, inventory);
+    },
+
+
+    sendUpdate: async function(id, title, inventory) {
+        return this.dao.update(id, "Not Payday", 4);
+    },
+
+
+    sendRemove: async function(id) {
+        return this.dao.remove(id);
+    },
+
+
+
+
+
+
 
     itemMapper: function(resultArray) {
         return {
