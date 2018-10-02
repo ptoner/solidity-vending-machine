@@ -2,7 +2,7 @@
 var ItemDaoBasic = artifacts.require("ItemDaoBasic");
 
 //Javascript dependencies
-var ItemService = require('./item-service.js');
+var ItemService = require('../src/js/item-service.js');
 
 
 

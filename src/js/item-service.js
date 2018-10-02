@@ -57,21 +57,18 @@ ItemService.prototype = {
         return this.dao.create(title, inventory);
     },
 
-
     sendUpdate: async function(id, title, inventory) {
         return this.dao.update(id, "Not Payday", 4);
     },
-
 
     sendRemove: async function(id) {
         return this.dao.remove(id);
     },
 
 
-
-
-
-
+    /**
+     * UTIL
+     */
 
     itemMapper: function(resultArray) {
         return {
