@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b1e47b3e-730f-400d-865c-c290e6724dc3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/normalize-package-data/lib/extract_description.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/normalize-package-data/lib/extract_description.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/normalize-package-data/lib/fixer.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/normalize-package-data/lib/fixer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/truffle/build/cli.bundled.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/truffle/build/cli.bundled.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/item-service.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/item-service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/TestItemService.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/TestItemService.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -64,7 +62,7 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="js" value="13022" />
+          <entry key="js" value="13028" />
           <entry key="json" value="90" />
           <entry key="md" value="1443" />
           <entry key="sol" value="7345" />
@@ -73,7 +71,7 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="JSON" value="90" />
-          <entry key="JavaScript" value="13022" />
+          <entry key="JavaScript" value="13028" />
           <entry key="Markdown" value="1443" />
           <entry key="Solidity file" value="7345" />
         </counts>
@@ -104,14 +102,15 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/TestItemService.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="9" selection-start-line="9" selection-end-line="9" />
+            <state relative-caret-position="-1602">
+              <caret line="99" column="7" lean-forward="true" selection-start-line="99" selection-start-column="7" selection-end-line="99" selection-end-column="7" />
               <folding>
                 <element signature="e#259#1592#0" />
                 <element signature="e#1646#2160#0" />
+                <element signature="e#2224#2788#0" />
               </folding>
             </state>
           </provider>
@@ -121,16 +120,16 @@
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="684">
-              <caret line="38" lean-forward="true" selection-start-line="38" selection-end-line="38" />
+              <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/js/item-service.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="612">
-              <caret line="69" column="11" selection-start-line="69" selection-start-column="11" selection-end-line="69" selection-end-column="11" />
+            <state relative-caret-position="380">
+              <caret line="64" column="30" selection-start-line="64" selection-start-column="30" selection-end-line="64" selection-end-column="30" />
               <folding>
                 <element signature="e#264#399#0" />
                 <element signature="e#445#590#0" />
@@ -138,7 +137,6 @@
                 <element signature="e#933#949#0" />
                 <element signature="e#985#1001#0" />
                 <element signature="e#1075#1091#0" />
-                <element signature="e#1202#1218#0" />
                 <element signature="e#1030#1276#0" />
               </folding>
             </state>
@@ -201,10 +199,10 @@
         <option value="$PROJECT_DIR$/src/js/index.js" />
         <option value="$PROJECT_DIR$/src/js/package.json" />
         <option value="$PROJECT_DIR$/test/circle.js" />
-        <option value="$PROJECT_DIR$/src/js/item-service.js" />
         <option value="$PROJECT_DIR$/test/item-service.js" />
         <option value="$PROJECT_DIR$/test/TestData.js" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/src/js/item-service.js" />
       </list>
     </option>
   </component>
@@ -355,7 +353,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538509016823" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538517394568" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../baseball-ml" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -471,12 +469,12 @@
       <workItem from="1538128732962" duration="7589000" />
       <workItem from="1538224284520" duration="1790000" />
       <workItem from="1538308195330" duration="2045000" />
-      <workItem from="1538336311238" duration="23651000" />
+      <workItem from="1538336311238" duration="25013000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="167028000" />
+    <option name="totallyTimeSpent" value="168390000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -506,7 +504,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32864866" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49893278" weight="0.25945947" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.49893278" visible="true" weight="0.25945947" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5010672" side_tool="true" weight="0.25945947" />
       <window_info anchor="bottom" id="Version Control" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -716,10 +714,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="684">
+          <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/TestItemService.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1602">
+          <caret line="99" column="7" lean-forward="true" selection-start-line="99" selection-start-column="7" selection-end-line="99" selection-end-column="7" />
+          <folding>
+            <element signature="e#259#1592#0" />
+            <element signature="e#1646#2160#0" />
+            <element signature="e#2224#2788#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/js/item-service.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="69" column="11" selection-start-line="69" selection-start-column="11" selection-end-line="69" selection-end-column="11" />
+        <state relative-caret-position="380">
+          <caret line="64" column="30" selection-start-line="64" selection-start-column="30" selection-end-line="64" selection-end-column="30" />
           <folding>
             <element signature="e#264#399#0" />
             <element signature="e#445#590#0" />
@@ -727,26 +744,7 @@
             <element signature="e#933#949#0" />
             <element signature="e#985#1001#0" />
             <element signature="e#1075#1091#0" />
-            <element signature="e#1202#1218#0" />
             <element signature="e#1030#1276#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="684">
-          <caret line="38" lean-forward="true" selection-start-line="38" selection-end-line="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/TestItemService.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="9" selection-start-line="9" selection-end-line="9" />
-          <folding>
-            <element signature="e#259#1592#0" />
-            <element signature="e#1646#2160#0" />
           </folding>
         </state>
       </provider>
