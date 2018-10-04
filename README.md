@@ -1,4 +1,7 @@
 # Vending Machine: DApp Edition
+
+![Logo](profile.png)
+
 Code repository for the Solidity vending machine project I'm building on my Twitch stream. https://www.twitch.tv/patricktoner
 
 I'm using test driven development to build a prototype DApp that will run as a smart contract on the Ethereum blockchain. 
