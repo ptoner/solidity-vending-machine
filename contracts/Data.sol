@@ -71,10 +71,12 @@ contract ItemDaoBasic is ItemDao {
         string eventType
     );
 
+    event DebugEvent(
+        uint256 index
+    );
 
 
-
-    function read(uint256 _id) external view returns (uint256 id, address owner, uint version, string title, int inventory, uint256 index) {
+    function read(uint256 _id) public view returns (uint256 id, address owner, uint version, string title, int inventory, uint256 index) {
 
         require(_exists(_id), "This ID does not exist");
 
@@ -211,15 +213,13 @@ contract ItemDaoBasic is ItemDao {
 
     function readByIndex(uint256 _index) external constant returns (uint256 id, address owner, uint version, string title, int inventory, uint256 index) {
 
-        require(_index < itemIndex.length, "No item at this index");
+        require(_index < itemIndex.length, "No item at index");
 
         uint256 idAtIndex = itemIndex[_index];
 
+        require(idAtIndex >= 0, "Invalid id at index");
 
-        Item storage item = itemMapping[idAtIndex];
-
-
-        return (item.id, item.owner, item.version, item.title, item.inventory, item.index);
+        return read(idAtIndex);
     }
 
     function _exists(uint256 _id) private view returns (bool) {

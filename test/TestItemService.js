@@ -140,14 +140,32 @@ contract('ItemDaoBasic', async (accounts) => {
     it("Test read Item: non-existent negative ID", async () => {
 
         //Act
+        let error;
+
         try {
-            let resultArray = await await itemService.callRead(-42);
+            let resultArray = await itemService.callRead(-42);
         } catch(ex) {
             error = ex;
         }
 
         assert.isTrue(error instanceof Error, "Not an error :(");
         assert.equal("This ID does not exist", getRequireMessage(error), "Should fail to read nonexistent item with negative ID");
+
+    });
+
+    it("Test read Item by index: negative index", async () => {
+
+        //Act
+        let error;
+
+        try {
+            let resultArray = await itemService.callReadByIndex(-1);
+        } catch(ex) {
+            error = ex;
+        }
+
+        assert.isTrue(error instanceof Error, "Not an error :(");
+        assert.equal("No item at index", getRequireMessage(error), "Should fail to read nonexistent item at negative index");
 
     });
 
@@ -253,12 +271,7 @@ contract('ItemDaoBasic', async (accounts) => {
     it("Delete all Items then count", async () => {
 
         //Arrange
-        let items = await itemService.callReadItemList(Number.MAX_SAFE_INTEGER, 0);
-
-        //Delete them all
-        for (item of items) {
-            let resultArray = await itemService.sendRemove(item.id.toNumber());
-        }
+        await deleteAllItems();
 
         //Act
         let result = await itemService.callCount();
@@ -352,17 +365,10 @@ contract('ItemDaoBasic', async (accounts) => {
 
     it("Test indexing during remove", async () => {
 
-
         //Arrange
 
         //Delete all of the existing records
-        let items = await itemService.callReadItemList(Number.MAX_SAFE_INTEGER, 0);
-
-        for (item of items) {
-            await itemService.sendRemove(item.id.toNumber());
-        }
-
-        assert.equal(await itemService.callCount(), 0, "Failed to delete all items");
+        await deleteAllItems();
 
 
         //Insert 3 records
@@ -387,13 +393,120 @@ contract('ItemDaoBasic', async (accounts) => {
         assert.equal(itemAtIndex1.id.toNumber(), createdId3.toNumber(), "Item has wrong ID");
         assert.equal(itemAtIndex1.index.toNumber(), 1, "Item has wrong index");
 
+    });
+
+
+    it("Test read Item list for duplicates", async () => {
+
+        //Arrange
+        await deleteAllItems();
+
+        for (var i=0; i < 50; i++) {
+            await createPaydayGetCreatedId();
+        }
+
+        assert.equal(await itemService.callCount(), 50, "Count is incorrect");
+
+
+
+        //Act
+        var foundIds = [];
+        for (var i=0; i < 5; i++) {
+            let limit = 10;
+            let offset = i*10;
+
+
+            let itemList = await itemService.callReadItemList(limit, offset);
+
+            for (item of itemList) {
+                if (foundIds.includes(item.id)) {
+                    assert.fail("Duplicate ID found in page");
+                }
+
+                foundIds.push(item.id);
+            }
+        }
+
+    });
+
+
+    it("Test read Item list negative offset", async () => {
+
+        //Arrange
+        assert.equal(await itemService.callCount(), 50, "Count is incorrect");
+
+
+        //Act
+        let error;
+
+        try {
+            let itemList = await itemService.callReadItemList(10, -1);
+        } catch(ex) {
+           error = ex;
+          }
+
+
+        //Assert
+        assert.equal("Invalid offset provided", error, "Error message does not match");
 
 
     });
 
 
+    it("Test read Item list negative limit", async () => {
+
+        //Arrange
+        assert.equal(await itemService.callCount(), 50, "Count is incorrect");
 
 
+        //Act
+        let error;
+
+        try {
+            let itemList = await itemService.callReadItemList(-1, 0);
+        } catch(ex) {
+            error = ex;
+        }
+
+
+        //Assert
+        assert.equal("Invalid limit provided", error, "Error message does not match");
+
+
+    });
+
+
+    it("Test read Item list zero limit", async () => {
+
+        //Arrange
+        assert.equal(await itemService.callCount(), 50, "Count is incorrect");
+
+
+        //Act
+        let error;
+
+        try {
+            let itemList = await itemService.callReadItemList(0, 0);
+        } catch(ex) {
+            error = ex;
+        }
+
+
+        //Assert
+        assert.equal("Invalid limit provided", error, "Error message does not match");
+
+
+    });
+
+
+    async function deleteAllItems () {
+        let items = await itemService.callReadItemList(Number.MAX_SAFE_INTEGER, 0);
+
+
+        for (item of items) {
+            await itemService.sendRemove(item.id.toNumber());
+        }
+    }
 
 
 

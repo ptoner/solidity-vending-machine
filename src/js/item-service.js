@@ -35,10 +35,28 @@ ItemService.prototype = {
 
         let items = [];
 
-        for (var i=offset; (i < currentCount) || (i - offset == limit); i++) {
+        if (offset >= currentCount) {
+            throw "Offset past current count";
+        }
+
+        if (limit <= 0) {
+            throw "Invalid limit provided";
+        }
+
+        if (offset < 0) {
+            throw "Invalid offset provided";
+        }
+
+
+        let endIndex = Math.min( currentCount - 1,  offset + limit);
+
+        // console.log(`offset: ${offset}, endIndex: ${endIndex}, count: ${currentCount}`);
+
+        for (var i=offset; i <= endIndex; i++) {
             let resultArray = await self.dao.readByIndex.call(i);
             items.push(self.itemMapper(resultArray));
         }
+
 
         return items;
 
