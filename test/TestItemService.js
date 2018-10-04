@@ -23,7 +23,7 @@ contract('ItemDaoBasic', async (accounts) => {
 
 
 
-    it("Test create Item", async () => {
+    it("Test sendCreate", async () => {
 
         //Arrange and act
         let result = await createPayday();
@@ -58,7 +58,7 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
-    it("Test create Item: no title", async () => {
+    it("Test sendCreate: No title", async () => {
 
         //Arrange
         var title="";
@@ -79,7 +79,7 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
-    it("Test create Item: negative inventory", async () => {
+    it("Test sendCreate: Negative inventory", async () => {
 
         //Arrange
         var title="Payday";
@@ -100,7 +100,7 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
-    it("Test read Item", async () => {
+    it("Test callRead", async () => {
 
         //Arrange
         let createdId = await createPaydayGetCreatedId();
@@ -120,7 +120,7 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
-    it("Test read Item: non-existent item ID", async () => {
+    it("Test callRead: Non-existent item ID", async () => {
 
         let error;
 
@@ -137,7 +137,7 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
-    it("Test read Item: non-existent negative ID", async () => {
+    it("Test callRead: Non-existent negative ID", async () => {
 
         //Act
         let error;
@@ -153,7 +153,7 @@ contract('ItemDaoBasic', async (accounts) => {
 
     });
 
-    it("Test read Item by index: negative index", async () => {
+    it("Test callReadByIndex: Negative index", async () => {
 
         //Act
         let error;
@@ -170,7 +170,7 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
-    it("Test update Item", async () => {
+    it("Test sendUpdate", async () => {
 
         //Arrange
         let createdId = await createPaydayGetCreatedId();
@@ -211,7 +211,7 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
-    it("Test remove Item", async () => {
+    it("Test sendRemove", async () => {
 
         //Arrange
         let createdId = await createPaydayGetCreatedId();
@@ -254,7 +254,7 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
-    it("Test count Items", async () => {
+    it("Test count", async () => {
 
         //Arrange
 
@@ -268,7 +268,7 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
-    it("Delete all Items then count", async () => {
+    it("Test count: Delete all, then count", async () => {
 
         //Arrange
         await deleteAllItems();
@@ -283,7 +283,7 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
-    it("Add 50 records then count", async () => {
+    it("Test count: Add 50 records then count", async () => {
 
         //Arrange
         for (var i=0; i < 50; i++) {
@@ -300,7 +300,7 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
-    it("Test count by removing some Items", async () => {
+    it("Test count: Removing some Items", async () => {
 
         //Arrange - 50 items already exist at this point
 
@@ -363,7 +363,7 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
-    it("Test indexing during remove", async () => {
+    it("Test sendRemove: Verify indexing", async () => {
 
         //Arrange
 
@@ -396,7 +396,7 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
-    it("Test read Item list for duplicates", async () => {
+    it("Test callReadItemList: Check for duplicates", async () => {
 
         //Arrange
         await deleteAllItems();
@@ -430,7 +430,7 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
-    it("Test read Item list negative offset", async () => {
+    it("Test callReadItemList: Negative offset", async () => {
 
         //Arrange
         assert.equal(await itemService.callCount(), 50, "Count is incorrect");
@@ -453,7 +453,7 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
-    it("Test read Item list negative limit", async () => {
+    it("Test callReadItemList: Negative limit", async () => {
 
         //Arrange
         assert.equal(await itemService.callCount(), 50, "Count is incorrect");
@@ -476,7 +476,7 @@ contract('ItemDaoBasic', async (accounts) => {
     });
 
 
-    it("Test read Item list zero limit", async () => {
+    it("Test callReadItemList: Zero limit", async () => {
 
         //Arrange
         assert.equal(await itemService.callCount(), 50, "Count is incorrect");

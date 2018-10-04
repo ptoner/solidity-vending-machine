@@ -53,8 +53,7 @@ ItemService.prototype = {
         // console.log(`offset: ${offset}, endIndex: ${endIndex}, count: ${currentCount}`);
 
         for (var i=offset; i <= endIndex; i++) {
-            let resultArray = await self.dao.readByIndex.call(i);
-            items.push(self.itemMapper(resultArray));
+            items.push(await self.callReadByIndex(i));
         }
 
 
